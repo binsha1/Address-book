@@ -1,0 +1,21 @@
+.bg-theme{
+    background:#337ab7;
+    height:100%;
+    
+}
+.left-div{
+    padding:10rem 0rem;
+}
+input.btn.btn-contact{
+    background:#337ab7;
+    color:white;
+    
+}
+.bg-form{
+    border:2px solid #337ab7;
+    border-radius: 10px;
+}
+.fa{
+    font-size:2rem;
+}
+
