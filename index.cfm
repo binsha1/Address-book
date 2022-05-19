@@ -1,15 +1,17 @@
 <cfinclude  template="master.cfm">
 <body>
+    <cfinclude  template="header.cfm">
     <div class="container-fluid">
         <div class="container py-5">
-            <div class="col-lg-6 offset-lg-3 p-3">
-                <div class="row bg-form">
+            <div class="col-lg-6 offset-lg-3 p-3">                
+                <div class="row bg-form">                
                     <div class="col-lg-4 p-2">
                         <div class="bg-theme">
                         </div>
                     </div>
-                    <div class="col-lg-8 left-div">
-                        <form method='post' name="img_form" action="">
+                    <div class="col-lg-8">
+                        <h3 class="text-contact pt-5 text-center">LOGIN FORM</h3>                        
+                        <form method='post' name="img_form" action="" class="pt-5">
                               <div class="form-group row">                                    
                                     <div class='col-sm-12'>
                                           <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="f_name" required="yes">
@@ -26,13 +28,15 @@
                                     </div>
                               </div>
                         </form>
-                        <div>
+                        <div class="py-3 ">
                             <p>Or Sign In using</p>
-                            <i class="fa fa-facebook-square"></i>
-                            <i class="fa fa-google-plus"></i> 
+                            <div>
+                                <i class="fa fa-facebook-square pr-5"></i>
+                                <i class="fa fa-google-plus"></i> 
+                            </div>
                         </div>
-                        <div>
-                            <p>Dont have any account? <a href=""><span class="text-contact">Register Here</span></a></p>
+                        <div class="py-4">
+                            <p>Dont have any account? <a href="register.cfm"><span class="text-contact">Register Here</span></a></p>
                         </div>
                     </div>
                 </div>
