@@ -16,6 +16,34 @@ input.btn.btn-contact{
     border-radius: 10px;
 }
 .fa{
-    font-size:2rem;
+    font-size:3rem;
+    
 }
-
+nav.navbar.navbar-contact{
+    background:#337ab7 ;
+}
+a.navbar-brand{
+    color: white;
+}
+.navbar-nav>li>a{
+    color:white;
+}
+ul.nav.navbar-nav.navbar-right {
+    flex-direction: unset;
+}
+i.fa.fa-facebook-square
+{
+    padding-right: 1rem;
+}
+.text-contact{
+    
+    color:#337ab7;
+}
+.nav>li>a:focus, .nav>li>a:hover {
+    color:hsl(208, 56%, 46%);
+    
+}
+a.navbar-brand:hover{
+    color:#337ab7;
+    background:white;
+}
