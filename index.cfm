@@ -11,6 +11,7 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
+<<<<<<< HEAD
                         <h3 class="text-contact pt-5 text-center pb-3">LOGIN FORM</h3>
                         <cfif invalid EQ '1'>                                                
                             <div class="alert alert-danger alert-dismissible">
@@ -19,6 +20,10 @@
                             </div>
                         </cfif>
                         <form method='post' name="img_form" action="components/results.cfc?method=doLogin" class="pt-3">
+=======
+                        <h3 class="text-contact pt-5 text-center">LOGIN FORM</h3>                        
+                        <form method='post' name="img_form" action="" class="pt-5">
+>>>>>>> c18831ff2897ed82a2a5bda8f318d2ffd51224c3
                               <div class="form-group row">                                    
                                     <div class='col-sm-12'>
                                           <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="f_name" required="yes">
