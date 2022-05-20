@@ -5,6 +5,7 @@
         <cfargument  name="user_name" type="string">
         <cfargument  name="pwd" type="string">
         <cfargument  name="c_pwd" type="string">
+<<<<<<< HEAD
         <cfset local.status="">
          <cfset local.password = hash(arguments.pwd)>            
         <cfquery name="address_email" datasource="address_book" result="email_res">
@@ -24,10 +25,15 @@
         <cfif arguments.full_name!="" && arguments.email_id!="" && arguments.user_name!="" && arguments.pwd!="" && arguments.c_pwd!="" && arguments.pwd==arguments.c_pwd>
             <cfif email_res.RecordCount EQ 0 AND user_res.RecordCount EQ 0>
                 <cfquery name="address_book" datasource="address_book" result="result">
+=======
+        <cfif arguments.full_name!="" && arguments.email_id!="" && arguments.user_name!="" && arguments.pwd!="" && arguments.c_pwd!="" && arguments.pwd==arguments.c_pwd>
+                <cfquery name="address_book" datasource="address_book">
+>>>>>>> c18831ff2897ed82a2a5bda8f318d2ffd51224c3
                     INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
                     VALUES(<cfqueryparam value="#arguments.full_name#" cfsqltype="CF_SQL_VARCHAR">,
                     <cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">,
                     <cfqueryparam value="#arguments.user_name#" cfsqltype="CF_SQL_VARCHAR">,
+<<<<<<< HEAD
                     <cfqueryparam value="#local.password#" cfsqltype="CF_SQL_VARCHAR">                   
                         )
                 </cfquery>
@@ -62,3 +68,16 @@
         </cfif>
     </cffunction>
 </cfcomponent>
+=======
+                    <cfqueryparam value="#arguments.pwd#" cfsqltype="CF_SQL_VARCHAR">                   
+                     )
+                </cfquery>
+        </cfif>        
+        <cfquery name="address_book" datasource="address_book">
+            SELECT * FROM address_book.user_data 
+            WHERE email_id=<cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">
+        </cfquery> 
+        <cfreturn address_book.RecordCount>
+    </cffunction>
+</cfcomponent>
+>>>>>>> c18831ff2897ed82a2a5bda8f318d2ffd51224c3
