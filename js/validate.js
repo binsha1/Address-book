@@ -20,23 +20,34 @@ function validatePasswordField(){
     {
         passwordInput.setCustomValidity('Please match the requested format: Minimum 8 characters, Contain atleast 1 lowercase ,uppercase character, Atleast 1 Number');
     }
-    /*
-    else if(!pass.match(symbolPattern))
-    {
-        pass="";
-        confirmPasswordInput.value=" ";
-        passwordInput.setCustomValidity('Password must contain atleast one symbol');        
-    }
-    else if(!pass.match(numberPattern))
-    {
-        passwordInput.setCustomValidity('Password must contain atleast one number');
-    }
-    else if(!pass.match(lowercasePattern))
-    {
-        passwordInput.setCustomValidity('Password must contain atleast one lower case character');
-    }
-    else if(!pass.match(uppercasePattern))
-    {
-        passwordInput.setCustomValidity('Password must contain atleast one upper case character');
-    }*/
+    
 }
+function validateCreate(){
+    var pincode=document.querySelector('input[name=pincode]');
+    var phone=document.querySelector('input[name=phone]');
+    var pin_pattern=/^\d{6}$/;
+    var ph_pattern=/^\d{10}$/;
+    alert('dfgd');
+    if(!pin_pattern.test(pincode.value))
+    {
+        pincode.setCustomValidity('Pincode should be 6 digit number');
+        pincode.value="";
+        pincode.focus();
+        return false;
+    }
+    else if(!ph_pattern.test(phone.value))
+    {
+        phone.setCustomValidity('Phone number should be 10 digit number');
+        phone.value="";
+        phone.focus();
+        return false;
+    }
+    return true;
+
+}
+Status Update	:  23-05-2022 
+Working on 	: Address Book- Task 2
+Task   		: Header Management|Logout Functionality|Dashboard Page Design 
+              |Create Form Design on Modal| Front End validation on CreateForm
+ETA                  : 06-06-2022
+link                   : https://github.com/binsha1/coldfusion-task2.git

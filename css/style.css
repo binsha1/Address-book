@@ -11,6 +11,12 @@ input.btn.btn-contact{
     color:white;
     
 }
+button.btn.btn-contact{
+    background:#337ab7;
+    color:white;
+    
+}
+
 .bg-form{
     border:2px solid #337ab7;
     border-radius: 10px;
@@ -46,4 +52,53 @@ i.fa.fa-facebook-square
 a.navbar-brand:hover{
     color:#337ab7;
     background:white;
+}
+.pdf_row{
+    background-color: whitesmoke;
+}
+.dashboard_icons{
+    float:right;
+    font-size:4rem;
+    padding:0rem 3rem;
+}
+
+.fa-file-pdf-o{
+    color:red;
+}
+.fa-file-excel-o{
+    color:green;
+}
+.contact-card{
+    color:#337ab7;
+    font-size: 4rem;
+    border:2px solid;
+    padding:2rem;
+}
+.table-div{
+    padding:2rem;
+    color:#337ab7;
+    border:2px solid  ;
+}
+table.table.table-bordered{
+    color:#337ab7;
+}
+.social_icons{
+    font-size:3rem;
+}
+
+.modal-header{
+    background: #337ab7;
+    color: white;
+}
+img.img-fluid.img-contact{
+    height:30%;
+}
+label.form-label.required.control-label.pt-3:after {
+    content: " *";
+    color: red;
+}
+label.form-label.required.control-label:after
+{
+    content: " *";
+    color: red;
 }

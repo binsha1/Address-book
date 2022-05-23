@@ -52,7 +52,7 @@
                 <cfloginuser  name="#loginData.user_name#"  password="#loginData.password#" roles="User" >
                 </cfloginuser>
             </cflogin>
-            <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name}>
+            <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
             <cfset local.userLoggedIn=true>
         </cfif>
         <cfif local.userLoggedIn EQ true>
@@ -60,5 +60,10 @@
         <cfelse>
             <cflocation  url="../index.cfm?invalid=1">
         </cfif>
+    </cffunction>
+
+    <cffunction name="doLogout" access="public" output="false">
+        <cfset structDelete(session, "sessionUser")>
+        <cflogout>
     </cffunction>
 </cfcomponent>
