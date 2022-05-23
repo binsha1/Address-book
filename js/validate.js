@@ -45,9 +45,3 @@ function validateCreate(){
     return true;
 
 }
-Status Update	:  23-05-2022 
-Working on 	: Address Book- Task 2
-Task   		: Header Management|Logout Functionality|Dashboard Page Design 
-              |Create Form Design on Modal| Front End validation on CreateForm
-ETA                  : 06-06-2022
-link                   : https://github.com/binsha1/coldfusion-task2.git
