@@ -23,25 +23,37 @@ function validatePasswordField(){
     
 }
 function validateCreate(){
-    var pincode=document.querySelector('input[name=pincode]');
+    var pincode=document.getElementById('pincode');
     var phone=document.querySelector('input[name=phone]');
-    var pin_pattern=/^\d{6}$/;
-    var ph_pattern=/^\d{10}$/;
-    alert('dfgd');
+    var pin_pattern=/^[1-9][0-9]{5}$/;
+    var ph_pattern=/^\d{10}$/;   
     if(!pin_pattern.test(pincode.value))
     {
-        pincode.setCustomValidity('Pincode should be 6 digit number');
+        pincode.setCustomValidity("Pincode should be 6 digit number and shouldn't start with 0");
         pincode.value="";
-        pincode.focus();
-        return false;
+        pincode.focus();        
     }
-    else if(!ph_pattern.test(phone.value))
+    else{
+        pincode.setCustomValidity('');
+    }
+    if(!ph_pattern.test(phone.value))
     {
         phone.setCustomValidity('Phone number should be 10 digit number');
         phone.value="";
         phone.focus();
-        return false;
+        
     }
-    return true;
+    else{
+        phone.setCustomValidity('');
+    }
+    /*
+    if(!ph_pattern.test(phone.value))
+    {
+        phone.setCustomValidity('Phone number should be 10 digit number');
+        phone.value="";
+        phone.focus();
+        
+    }*/
+   
 
 }

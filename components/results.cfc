@@ -5,10 +5,6 @@
         <cfargument  name="user_name" type="string">
         <cfargument  name="pwd" type="string">
         <cfargument  name="c_pwd" type="string">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 15bf8c96303051b94dc235ec703f025dc65e90e6
         <cfset local.status="">
          <cfset local.password = hash(arguments.pwd)>            
         <cfquery name="address_email" datasource="address_book" result="email_res">
@@ -28,21 +24,10 @@
         <cfif arguments.full_name!="" && arguments.email_id!="" && arguments.user_name!="" && arguments.pwd!="" && arguments.c_pwd!="" && arguments.pwd==arguments.c_pwd>
             <cfif email_res.RecordCount EQ 0 AND user_res.RecordCount EQ 0>
                 <cfquery name="address_book" datasource="address_book" result="result">
-<<<<<<< HEAD
-=======
-=======
-        <cfif arguments.full_name!="" && arguments.email_id!="" && arguments.user_name!="" && arguments.pwd!="" && arguments.c_pwd!="" && arguments.pwd==arguments.c_pwd>
-                <cfquery name="address_book" datasource="address_book">
->>>>>>> c18831ff2897ed82a2a5bda8f318d2ffd51224c3
->>>>>>> 15bf8c96303051b94dc235ec703f025dc65e90e6
                     INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
                     VALUES(<cfqueryparam value="#arguments.full_name#" cfsqltype="CF_SQL_VARCHAR">,
                     <cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">,
                     <cfqueryparam value="#arguments.user_name#" cfsqltype="CF_SQL_VARCHAR">,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 15bf8c96303051b94dc235ec703f025dc65e90e6
                     <cfqueryparam value="#local.password#" cfsqltype="CF_SQL_VARCHAR">                   
                         )
                 </cfquery>
@@ -81,20 +66,80 @@
         <cfset structDelete(session, "sessionUser")>
         <cflogout>
     </cffunction>
-</cfcomponent>
-<<<<<<< HEAD
-=======
-=======
-                    <cfqueryparam value="#arguments.pwd#" cfsqltype="CF_SQL_VARCHAR">                   
-                     )
-                </cfquery>
-        </cfif>        
-        <cfquery name="address_book" datasource="address_book">
-            SELECT * FROM address_book.user_data 
-            WHERE email_id=<cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">
+
+    <cffunction name="createContact" access="remote" output="false">
+        <cfargument  name="title" type="string">
+        <cfargument  name="f_name" type="string">
+        <cfargument  name="l_name" type="string">
+        <cfargument  name="gender" type="string">
+        <cfargument  name="dob" type="date">
+        <cfargument  name="address" type="string">
+        <cfargument  name="street" type="string">
+        <cfargument  name="city" type="string">
+        <cfargument  name="state" type="string">
+        <cfargument  name="nation" type="string">
+        <cfargument  name="pincode" type="integer">
+        <cfargument  name="email" type="string">
+        <cfargument  name="phone" type="string">
+        <cfargument  name="user_img" type="string">
+        <cfargument  name="user_id" type="integer">
+        <cfquery name="loginData" datasource="address_book">
+            SELECT * FROM address_book.user_data WHERE id=<cfqueryparam value="#arguments.user_id#" >
         </cfquery> 
-        <cfreturn address_book.RecordCount>
+        <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
+        <cfset local.create="">
+        <cfset local.thisDir = expandPath("../uploads")>
+        <cfset local.currDir=expandPath("../files")>
+        <cfif len(trim(arguments.user_img)) >      
+            <cffile action="upload" fileField="form.user_img"  destination="#thisDir#" result="fileUpload" nameconflict="overwrite">
+            <cfset local.file_name=fileupload.serverfile >
+        <cfelse>
+            <cfset local.file_name="" >           
+        </cfif>
+        <cfquery name="contact_email" datasource="address_book" result="contact_email_res">
+            SELECT * FROM address_book.contacts
+            WHERE email_id=<cfqueryparam value="#arguments.email#" cfsqltype="CF_SQL_VARCHAR">
+        </cfquery>
+        <cfquery name="contact_phone" datasource="address_book" result="contact_phone_res">
+            SELECT * FROM address_book.contacts
+            WHERE phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR">
+        </cfquery>
+        <cfif contact_email_res.RecordCount EQ 0 AND contact_phone_res.RecordCount EQ 0> 
+            <cfquery name="contact_user" datasource="address_book" result="contact_res">
+                INSERT INTO address_book.contacts(title,first_name,last_name,gender,dob,address,street_name,city,state,nation,pincode,email_id,phone_number,user_photo,user_id) 
+                VALUES(<cfqueryparam value="#arguments.title#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.f_name#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.l_name#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.gender#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.dob#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.address#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.street#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.city#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.state#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.nation#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.pincode#" cfsqltype="CF_SQL_INTEGER">,                   
+                        <cfqueryparam value="#arguments.email#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_NUMERIC">,
+                        <cfqueryparam value="#local.file_name#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">                                   
+                        )
+            </cfquery>
+            <cfif contact_res.RecordCount EQ 1>
+                <cfset local.create="1">
+            </cfif>
+        </cfif>        
+        <cfif contact_email_res.RecordCount NEQ 0>
+            <cfset local.create="2">
+        <cfelseif contact_phone_res.RecordCount NEQ 0>
+            <cfset local.create="3">
+        </cfif>
+        <cflocation  url="../dashboard.cfm?create=#local.create#">
+    </cffunction>
+
+    <cffunction name="contactData" access="public" output="true">
+        <cfquery name="contact_data" datasource="address_book" result="contact_res_data">
+            SELECT * FROM address_book.contacts;
+        </cfquery>
+        <cfreturn contact_data>
     </cffunction>
 </cfcomponent>
->>>>>>> c18831ff2897ed82a2a5bda8f318d2ffd51224c3
->>>>>>> 15bf8c96303051b94dc235ec703f025dc65e90e6

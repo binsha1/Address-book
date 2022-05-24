@@ -102,3 +102,12 @@ label.form-label.required.control-label:after
     content: " *";
     color: red;
 }
+img.img-fluid.img-icon{
+    height:4rem;
+    border-radius: 50%;
+    width:4rem;
+}
+a.btn.btn-contact{
+    background:#337ab7;
+    color:white;
+}

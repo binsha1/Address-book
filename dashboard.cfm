@@ -1,4 +1,5 @@
 <cfif structKeyExists(session,"sessionUser" )>
+    <cfparam  name="create" default="v">
     <cfinclude  template="master.cfm">
     <body>
         <cfinclude  template="header.cfm">
@@ -16,6 +17,22 @@
                     </div>
                 </div>
                 <div class="row pt-5">
+                    <cfif create EQ '2'>
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                User with Email Id Already Exists!!
+                        </div>
+                    <cfelseif  create EQ '3'>                               
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                User with Phone Number Already Exists!!
+                        </div>
+                    <cfelseif create EQ '1'>
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                Contact Created Successfully!!
+                        </div>
+                    </cfif>                    
                     <div class="col-md-4">
                         <div class="contact-card text-center">
                             <div class="contact-image">
@@ -27,7 +44,7 @@
                         <!-- Modal -->
                         <div class="modal" id="myModal">
                             <div class="modal-dialog modal-lg">
-                                <form method='post' action="" name="img_form" enctype='multipart/form-data'>
+                                <form method='post' action="components/results.cfc?method=createContact" name="img_form" enctype='multipart/form-data' >
                                     <div class="modal-content">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
@@ -44,6 +61,9 @@
                                                         <label  class="form-label required control-label pt-3" >Title:</label>
                                                     </div>
                                                     <div class="col-lg-4">
+                                                        <cfoutput>
+                                                        <input type="hidden" name="user_id" value="#session.sessionUser.user_id#">
+                                                        </cfoutput>
                                                         <select name='title' class='form-control' id="title" required>
                                                             <option value="">Select Title</option>
                                                             <option value='miss'>Miss</option>
@@ -74,7 +94,7 @@
                                                             <label class="form-check-label">Male</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input type="radio" name="gender" value="F" class="form-check-input">
+                                                            <input type="radio" name="gender" value="Female" class="form-check-input">
                                                             <label class="form-check-label">Female</label>
                                                         </div>                                                        
                                                     </div>                                                    
@@ -91,7 +111,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div>                                                           
-                                                            <input class="form-control form-control-lg" id="formFileLg" type="file">
+                                                            <input class="form-control form-control-lg" id="formFileLg" type="file" accept=".png,.jpg,.jpeg" name="user_img">
                                                         </div>                                                      
                                                     </div>                                                    
                                                 </div>
@@ -138,7 +158,7 @@
                                                         <label class="form-label required control-label pt-3" >Pincode:</label>
                                                     </div>
                                                     <div class="col-lg-4">                                                                                                                    
-                                                        <input type="text" name="pincode" id="pincode" class="form-control" placeholder="Enter Pincode" required>                                                                                                             
+                                                        <input type="text" name="pincode" id="pincode" class="form-control"  placeholder="Enter Pincode"  required >                                                                                                             
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -169,16 +189,41 @@
                     </div>
                     <div class="col-md-8">
                         <div class="table-div">
-                            <table class="table table-bordered">
+                            <!---<cfset data=createObject("component","components.results")>
+                            <cfset res=data.contactData()>--->
+                            <cfset res = entityLoad( "contact")>
+                            
+                            <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>Name</th>
                                         <th>Email Id</th>
                                         <th>Phone Number</th> 
-                                        <th col-span="3"></th>                                                                      
+                                        <th></th> 
+                                        <th></th> 
+                                        <th></th>                                                                      
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <cfoutput query='res'>
+                                        <cfset name=first_name & " " & last_name>
+                                        <tr>
+                                            <cfif user_photo NEQ "">
+                                                <td><img src="uploads/#user_photo#" class="img-fluid img-icon"></td>
+                                            <cfelseif user_photo EQ "" AND gender EQ "Male">
+                                                <td><img src="files/male.png" class="img-fluid img-icon"></td>
+                                            <cfelseif user_photo EQ "" AND gender EQ "Female">
+                                                <td><img src="files/female.png" class="img-fluid img-icon"></td>
+                                            </cfif>
+                                            <td> #name# </td> 
+                                            <td> #email_id# </td>
+                                            <td> #phone_number# </td>  
+                                            <td><a href="" class="btn btn-contact">Edit</a></td>
+                                            <td><a href="" class="btn btn-contact">Delete</a></td>
+                                            <td><a href="" class="btn btn-contact">View</a></td>
+                                        </tr>
+                                    </cfoutput>
                                 </tbody>
                             </table>
                         </div>
@@ -188,4 +233,6 @@
         </div>
     </body>
     <cfinclude  template="footer.cfm">
+<!---<cfelse>
+    <cflocation  url="index.cfm">--->
 </cfif>
