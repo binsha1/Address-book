@@ -5,6 +5,6 @@
     <cfset This.applicationtimeout=createTimespan(2,0,0,0)>   
     <cfset this.setClientCookies=false>
     <cfset this.scriptProtect="all">
-    <cfset this.ormenabled="true">
-    <cfset this.dataSource="address_book">
+    <cfset this.ormenabled="true"> 
+    <cfset this.datasource="address_book">
 </cfcomponent>

@@ -188,12 +188,8 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="table-div">
-                            <!---<cfset data=createObject("component","components.results")>
-                            <cfset res=data.contactData()>--->
-                            <cfset res = entityLoad( "contact")>
-                            
-                            <table class="table table-striped">
+                        <div class="table-div">                               
+                            <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -205,7 +201,12 @@
                                         <th></th>                                                                      
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody>                                    
+                                       <!---<cfset data = EntityLoad("contacts")>
+                                       <cfdump var="#data#">   --->
+                                    <cfset data=createObject("component","components.results")>
+                                    <cfset res=data.contactData()>                                 
+                                    
                                     <cfoutput query='res'>
                                         <cfset name=first_name & " " & last_name>
                                         <tr>
