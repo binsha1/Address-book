@@ -67,7 +67,7 @@
         <cflogout>
     </cffunction>
 
-    <cffunction name="createContact" access="remote" output="false">
+    <cffunction name="createContact" access="remote" output="false">        
         <cfargument  name="title" type="string">
         <cfargument  name="f_name" type="string">
         <cfargument  name="l_name" type="string">
