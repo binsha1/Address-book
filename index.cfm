@@ -53,5 +53,6 @@
                 </div>
             </div>
         </div>
+        <cfdump var="#session.sessionUser#">
     </div>
 </body>

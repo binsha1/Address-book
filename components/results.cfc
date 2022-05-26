@@ -1,4 +1,4 @@
-<cfcomponent>
+<cfcomponent accessors="TRUE">
     <cffunction  name="registerAccount" output="true" access="remote">
         <cfargument  name="full_name" type="string">
         <cfargument  name="email_id" type="string">
@@ -39,7 +39,7 @@
         <cflocation  url="../register.cfm?status=#local.status#">        
     </cffunction>
 
-    <cffunction name="doLogin" access="remote" output="false" returntype="boolean">
+    <cffunction name="doLogin" access="remote" output="false" >
         <cfargument  name="user_name" type="string" required="true">
         <cfargument  name="pwd" type="string" required="true">
         <cfset local.password=hash(arguments.pwd)>             
@@ -53,7 +53,7 @@
                 </cfloginuser>
             </cflogin>
             <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
-            <cfset local.userLoggedIn=true>
+          <cfset local.userLoggedIn=true>
         </cfif>
         <cfif local.userLoggedIn EQ true>
             <cflocation  url="../dashboard.cfm">
@@ -133,7 +133,7 @@
         <cfelseif contact_phone_res.RecordCount NEQ 0>
             <cfset local.create="3">
         </cfif>
-        <cflocation  url="../dashboard.cfm?create=#local.create#">
+        <cflocation  url="../dashboard.cfm?create=#local.create#" AddToken="yes">
     </cffunction>
 
     <cffunction name="contactData" access="public" output="true">
@@ -141,5 +141,16 @@
             SELECT * FROM address_book.contacts;
         </cfquery>
         <cfreturn contact_data>
+    </cffunction>
+
+    <cffunction name="deleteData" access="public" output="true">
+        <cfargument  name="id" type="string">      
+        
+        <cfdump var="#session#">
+        <cfquery name="contact_data" datasource="address_book" result="contact_del_data">
+            DELETE FROM address_book.contacts WHERE id=<cfqueryparam value="#arguments.id#" cfsqltype="CF_SQL_INTEGER">
+        </cfquery>
+        <cfreturn contact_del_data.RecordCount>
+        
     </cffunction>
 </cfcomponent>

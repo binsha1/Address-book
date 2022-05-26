@@ -1,5 +1,7 @@
+  
 <cfif structKeyExists(session,"sessionUser" )>
     <cfparam  name="create" default="v">
+    <cfparam  name="delete" default="v">
     <cfinclude  template="master.cfm">
     <body>
         <cfinclude  template="header.cfm">
@@ -32,6 +34,11 @@
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 Contact Created Successfully!!
                         </div>
+                    <cfelseif delete EQ '1'>
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                Contact Deleted Successfully!!
+                        </div>
                     </cfif>                    
                     <div class="col-md-4">
                         <div class="contact-card text-center">
@@ -41,7 +48,7 @@
                             <h3 class="text-uppercase"><cfoutput>#session.sessionUser.full_name#</cfoutput></h3>
                             <button type="button" class="btn btn-contact" data-bs-toggle="modal" data-bs-target="#myModal">Create Contact</button>
                         </div>
-                        <!-- Modal -->
+                        <!-- Modal -->                        
                         <div class="modal" id="myModal">
                             <div class="modal-dialog modal-lg">
                                 <form method='post' action="components/results.cfc?method=createContact" name="img_form" enctype='multipart/form-data' >
@@ -66,9 +73,9 @@
                                                         </cfoutput>
                                                         <select name='title' class='form-control' id="title" required>
                                                             <option value="">Select Title</option>
-                                                            <option value='miss'>Miss</option>
-                                                            <option value='mrs' >Mrs</option>
-                                                            <option value='mr' >Mr</option>                                                                
+                                                            <option value='Miss'>Miss</option>
+                                                            <option value='Mrs' >Mrs</option>
+                                                            <option value='Mr' >Mr</option>                                                                
                                                         </select> 
                                                     </div>
                                                     <div class="col-lg-2">
@@ -201,14 +208,20 @@
                                         <th></th>                                                                      
                                     </tr>
                                 </thead>
-                                <tbody>                                    
+                                <tbody>
+                                    <!---<ORMReload()>
+                                    
+                                    <cfset test = entityLoad("contacts")>
+                                    <cfset addressDirectory = entityLoad("contacts")>--->                                    
                                        <!---<cfset data = EntityLoad("contacts")>
                                        <cfdump var="#data#">   --->
                                     <cfset data=createObject("component","components.results")>
-                                    <cfset res=data.contactData()>                                 
+                                    <cfset res=data.contactData()>                               
                                     
                                     <cfoutput query='res'>
                                         <cfset name=first_name & " " & last_name>
+                                        <cfset c_name= title & " " & first_name & " " & last_name>
+                                        <cfset address_name= address & ", " & street_name & ", " & city & ", " & state & ", " & nation>
                                         <tr>
                                             <cfif user_photo NEQ "">
                                                 <td><img src="uploads/#user_photo#" class="img-fluid img-icon"></td>
@@ -221,9 +234,95 @@
                                             <td> #email_id# </td>
                                             <td> #phone_number# </td>  
                                             <td><a href="" class="btn btn-contact">Edit</a></td>
-                                            <td><a href="" class="btn btn-contact">Delete</a></td>
-                                            <td><a href="" class="btn btn-contact">View</a></td>
+                                            <td><a href="delete.cfm?id=#id#" class="btn btn-contact">Delete</a></td>                                            
+                                            <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".viewModal-#id#">View</button></td>
                                         </tr>
+                                        <!--- View Modal --->                                                              
+                                        <!-- The Modal -->
+                                        <div class="modal viewModal-#id#" >
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">User Details</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body p-5">
+                                                        <div class="row">
+                                                            <div class="col-lg-7">
+                                                                <div class="row">
+                                                                    <div class="col-lg-4">
+                                                                        Name: 
+                                                                    </div>
+                                                                    <div class="col-lg-8">
+                                                                        #c_name#
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-3">
+                                                                    <div class="col-lg-4">
+                                                                        Gender: 
+                                                                    </div>
+                                                                    <div class="col-lg-8">
+                                                                        #gender#
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-3">
+                                                                    <div class="col-lg-4">
+                                                                        Date Of Birth:
+                                                                    </div>
+                                                                    <div class="col-lg-8">
+                                                                        #dob#
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-3">
+                                                                    <div class="col-lg-4">
+                                                                        Address:
+                                                                    </div>
+                                                                    <div class="col-lg-8">
+                                                                        #address_name#
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-3">
+                                                                    <div class="col-lg-4">
+                                                                        Pincode:
+                                                                    </div>
+                                                                    <div class="col-lg-8">
+                                                                        #pincode#
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-3">
+                                                                    <div class="col-lg-4">
+                                                                        Email Id
+                                                                    </div>
+                                                                    <div class="col-lg-8">
+                                                                        #email_id#
+                                                                    </div>
+                                                                </div>
+                                                                 <div class="row pt-3">
+                                                                    <div class="col-lg-4">
+                                                                        Phone Number
+                                                                    </div>
+                                                                    <div class="col-lg-8">
+                                                                        #phone_number#
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-5">
+                                                                <cfif user_photo NEQ "">
+                                                                    <img src="uploads/#user_photo#" class="img-fluid img-pic">
+                                                                </cfif>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!---View Modal ---> 
                                     </cfoutput>
                                 </tbody>
                             </table>
@@ -232,8 +331,9 @@
                 </div>
             </div>
         </div>
+    
     </body>
     <cfinclude  template="footer.cfm">
-<!---<cfelse>
-    <cflocation  url="index.cfm">--->
+<cfelse>
+    <cflocation  url="index.cfm">
 </cfif>
