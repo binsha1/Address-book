@@ -74,12 +74,12 @@
         <cfargument  name="gender" type="string">
         <cfargument  name="dob" type="date">
         <cfargument  name="address" type="string">
-        <cfargument  name="street" type="string">
+        <cfargument  name="street_name" type="string">
         <cfargument  name="city" type="string">
         <cfargument  name="state" type="string">
         <cfargument  name="nation" type="string">
         <cfargument  name="pincode" type="integer">
-        <cfargument  name="email" type="string">
+        <cfargument  name="email_id" type="string">
         <cfargument  name="phone" type="string">
         <cfargument  name="user_img" type="string">
         <cfargument  name="user_id" type="integer">
@@ -98,7 +98,7 @@
         </cfif>
         <cfquery name="contact_email" datasource="address_book" result="contact_email_res">
             SELECT * FROM address_book.contacts
-            WHERE email_id=<cfqueryparam value="#arguments.email#" cfsqltype="CF_SQL_VARCHAR">
+            WHERE email_id=<cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>
         <cfquery name="contact_phone" datasource="address_book" result="contact_phone_res">
             SELECT * FROM address_book.contacts
@@ -113,12 +113,12 @@
                         <cfqueryparam value="#arguments.gender#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.dob#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.address#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.street#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.street_name#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.city#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.state#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.nation#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.pincode#" cfsqltype="CF_SQL_INTEGER">,                   
-                        <cfqueryparam value="#arguments.email#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_NUMERIC">,
                         <cfqueryparam value="#local.file_name#" cfsqltype="CF_SQL_VARCHAR">,
                         <cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">                                   
@@ -144,13 +144,88 @@
     </cffunction>
 
     <cffunction name="deleteData" access="public" output="true">
-        <cfargument  name="id" type="string">      
-        
-        <cfdump var="#session#">
+        <cfargument  name="id" type="string">    
         <cfquery name="contact_data" datasource="address_book" result="contact_del_data">
             DELETE FROM address_book.contacts WHERE id=<cfqueryparam value="#arguments.id#" cfsqltype="CF_SQL_INTEGER">
         </cfquery>
-        <cfreturn contact_del_data.RecordCount>
-        
+        <cfreturn contact_del_data.RecordCount>        
+    </cffunction>
+
+    <cffunction name="editContact" access="remote" output="false">
+        <cfargument  name="title" type="string">
+        <cfargument  name="f_name" type="string">
+        <cfargument  name="l_name" type="string">
+        <cfargument  name="gender" type="string">
+        <cfargument  name="dob" type="date">
+        <cfargument  name="address" type="string">
+        <cfargument  name="street" type="string">
+        <cfargument  name="city" type="string">
+        <cfargument  name="state" type="string">
+        <cfargument  name="nation" type="string">
+        <cfargument  name="pincode" type="integer">
+        <cfargument  name="email" type="string">
+        <cfargument  name="phone" type="string">
+        <cfargument  name="user_img" type="string">        
+        <cfargument  name="contact_id" type="integer">
+        <cfset local.thisDir = expandPath("../uploads")>
+        <cfset local.currDir=expandPath("../files")>
+        <cfif len(trim(arguments.user_img)) >      
+            <cffile action="upload" fileField="form.user_img"  destination="#thisDir#" result="fileUpload" nameconflict="overwrite">
+            <cfset local.file_name=fileupload.serverfile >
+        <cfelse>
+            <cfset local.file_name="" >           
+        </cfif>
+        <cfquery name="loginData" datasource="address_book">
+            SELECT * FROM address_book.user_data WHERE id=<cfqueryparam value="#arguments.user_id#" >
+        </cfquery> 
+        <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
+        <cfquery name="contact_email" datasource="address_book" result="contact_email_res">
+            SELECT * FROM address_book.contacts
+            WHERE email_id=<cfqueryparam value="#arguments.email#" cfsqltype="CF_SQL_VARCHAR"> AND 
+            id!=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_VARCHAR">
+        </cfquery>
+        <cfquery name="contact_phone" datasource="address_book" result="contact_phone_res">
+            SELECT * FROM address_book.contacts
+            WHERE phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR"> AND 
+            id!=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_VARCHAR">
+        </cfquery>
+        <cfif contact_email_res.RecordCount EQ 0 AND contact_phone_res.RecordCount EQ 0>
+            <cfquery name="edit_contacts" datasource="address_book" result="update_res">
+                    UPDATE address_book.contacts 
+                    SET title=<cfqueryparam value="#arguments.title#" cfsqltype="CF_SQL_VARCHAR"> ,
+                    first_name=<cfqueryparam value="#arguments.f_name#" cfsqltype="CF_SQL_VARCHAR">,
+                    last_name=<cfqueryparam value="#arguments.l_name#" cfsqltype="CF_SQL_VARCHAR">,
+                    gender=<cfqueryparam value="#arguments.gender#" cfsqltype="CF_SQL_VARCHAR">, 
+                    dob=<cfqueryparam value="#arguments.dob#" cfsqltype="CF_SQL_VARCHAR">,
+                    address=<cfqueryparam value="#arguments.address#" cfsqltype="CF_SQL_VARCHAR">, 
+                    street_name=<cfqueryparam value="#arguments.street#" cfsqltype="CF_SQL_VARCHAR">,
+                    city=<cfqueryparam value="#arguments.city#" cfsqltype="CF_SQL_VARCHAR">,
+                    state=<cfqueryparam value="#arguments.state#" cfsqltype="CF_SQL_VARCHAR">,
+                    nation=<cfqueryparam value="#arguments.nation#" cfsqltype="CF_SQL_VARCHAR">,
+                    pincode=<cfqueryparam value="#arguments.pincode#" cfsqltype="CF_SQL_INTEGER">,
+                    email_id=<cfqueryparam value="#arguments.email#" cfsqltype="CF_SQL_VARCHAR">,
+                    phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR">,
+                    user_photo=<cfqueryparam value="#local.file_name#" cfsqltype="CF_SQL_VARCHAR">
+                    WHERE id=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_INTEGER"> 
+            </cfquery>
+            <cfif update_res.RecordCount EQ 1>
+                    <cfset local.edit="1">
+            </cfif>            
+        </cfif>
+        <cfif contact_email_res.RecordCount NEQ 0>
+            <cfset local.edit="2">
+        <cfelseif contact_phone_res.RecordCount NEQ 0>
+            <cfset local.edit="3">
+        </cfif>
+        <cflocation  url="../dashboard.cfm?edit=#local.edit#" AddToken="yes">
+
+    </cffunction>
+
+    <cffunction name="printFunc" output="true" access="public">
+        <cfargument  name="user_id" type="integer">
+        <cfquery name="print_res" result="p_res">
+            SELECT * FROM address_book.contacts WHERE user_id=<cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">
+        </cfquery>
+        <cfreturn print_res>
     </cffunction>
 </cfcomponent>

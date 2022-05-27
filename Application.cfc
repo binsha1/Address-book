@@ -7,4 +7,12 @@
     <cfset this.scriptProtect="all">
     <cfset this.ormenabled="true"> 
     <cfset this.datasource="address_book">
+    <cfset this.ormSettings = { 
+        logsql : true,
+        cflocation : ['components/contacts'],
+        dbcreate : "none",  
+        dialect : "org.hibernate.dialect.MySQL5Dialect",
+        datasource : "address_book",
+        useDBForMapping : false
+    }>
 </cfcomponent>
