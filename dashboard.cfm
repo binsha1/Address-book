@@ -2,6 +2,7 @@
 <cfif structKeyExists(session,"sessionUser" )>
     <cfparam  name="create" default="v">
     <cfparam  name="delete" default="v">
+    <cfparam  name="edit" default="v">
     <cfinclude  template="master.cfm">
     <body>
         <cfinclude  template="header.cfm">
@@ -13,7 +14,7 @@
                         <div class="dashboard_icons">
                            <p> <i class="fa fa-file-pdf-o"></i>
                              <i class="fa fa-file-excel-o"></i>
-                             <i class="fa fa-print"></i>
+                             <cfoutput><a href="print.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-print"></i></a></cfoutput>
                              </p>
                         </div>
                     </div>
@@ -38,6 +39,21 @@
                         <div class="alert alert-success alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 Contact Deleted Successfully!!
+                        </div>
+                    <cfelseif edit EQ '1'>
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                Contact Edited Successfully!!
+                        </div>
+                    <cfelseif edit EQ '2'>
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                             User with Email Id Already Exists!!
+                        </div>
+                    <cfelseif edit EQ '3'>
+                        <div class="alert alert-danger alert-dismissible">
+                            <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                             User with Phone Number Already Exists!!
                         </div>
                     </cfif>                    
                     <div class="col-md-4">
@@ -97,11 +113,11 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-check form-check-inline">
-                                                            <input type="radio" name="gender" value="Male" class="form-check-input">
+                                                            <input type="radio" name="gender" value="Male" class="form-check-input" required>
                                                             <label class="form-check-label">Male</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input type="radio" name="gender" value="Female" class="form-check-input">
+                                                            <input type="radio" name="gender" value="Female" class="form-check-input" required>
                                                             <label class="form-check-label">Female</label>
                                                         </div>                                                        
                                                     </div>                                                    
@@ -137,7 +153,7 @@
                                                         <label class="form-label required control-label pt-3" >Street Name:</label>
                                                     </div>
                                                     <div class="col-lg-4">                                                                                                                    
-                                                        <input type="text" name="street" class="form-control" placeholder="Enter Street Name" required>                                                                                                             
+                                                        <input type="text" name="street_name" class="form-control" placeholder="Enter Street Name" required>                                                                                                             
                                                     </div> 
                                                 </div>
                                                 <div class="form-group">
@@ -173,7 +189,7 @@
                                                         <label class="form-label required control-label pt-3" >Email Id:</label>
                                                     </div>
                                                     <div class="col-lg-4">                                                                                                                    
-                                                        <input type="email" name="email" class="form-control" placeholder="Enter Email Id" required>                                                                                                             
+                                                        <input type="email" name="email_id" class="form-control" placeholder="Enter Email Id" required>                                                                                                             
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <label class="form-label required control-label pt-3" >Phone Number:</label>
@@ -208,37 +224,186 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!---<ORMReload()>
+                                    <ORMReload()>
+                                    <cfset data = EntityLoad("contacts")>
+                                     
+                                    <cfset json_data = serializeJSON(data )>
+
+                        <cfset sData = deserializeJSON(json_data)>   
+                                    <!---<cfset data=createObject("component","components.results")>
+                                    <cfset res=data.contactData()> --->                              
                                     
-                                    <cfset test = entityLoad("contacts")>
-                                    <cfset addressDirectory = entityLoad("contacts")>--->                                    
-                                       <!---<cfset data = EntityLoad("contacts")>
-                                       <cfdump var="#data#">   --->
-                                    <cfset data=createObject("component","components.results")>
-                                    <cfset res=data.contactData()>                               
+                                    <cfoutput>
+                                    <cfloop array="#sData#" index="i">
                                     
-                                    <cfoutput query='res'>
-                                        <cfset name=first_name & " " & last_name>
-                                        <cfset c_name= title & " " & first_name & " " & last_name>
-                                        <cfset address_name= address & ", " & street_name & ", " & city & ", " & state & ", " & nation>
+                                        <cfset name=i.first_name & " " & i.last_name>
+                                        <cfset c_name= i.title & " " & i.first_name & " " & i.last_name>
+                                        <cfset address_name= i.address & ", " & i.street_name & ", " & i.city & ", " & i.state & ", " & i.nation>
                                         <tr>
-                                            <cfif user_photo NEQ "">
+                                            <cfif i.user_photo NEQ "">
                                                 <td><img src="uploads/#user_photo#" class="img-fluid img-icon"></td>
-                                            <cfelseif user_photo EQ "" AND gender EQ "Male">
+                                            <cfelseif i.user_photo EQ "" AND i.gender EQ "Male">
                                                 <td><img src="files/male.png" class="img-fluid img-icon"></td>
-                                            <cfelseif user_photo EQ "" AND gender EQ "Female">
+                                            <cfelseif i.user_photo EQ "" AND i.gender EQ "Female">
                                                 <td><img src="files/female.png" class="img-fluid img-icon"></td>
                                             </cfif>
                                             <td> #name# </td> 
-                                            <td> #email_id# </td>
-                                            <td> #phone_number# </td>  
-                                            <td><a href="" class="btn btn-contact">Edit</a></td>
-                                            <td><a href="delete.cfm?id=#id#" class="btn btn-contact">Delete</a></td>                                            
-                                            <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".viewModal-#id#">View</button></td>
+                                            <td> #i.email_id# </td>
+                                            <td> #i.phone_number# </td>  
+                                            <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".editModal-#i.id#">Edit</button></td>
+                                            <td><a href="delete.cfm?id=#i.id#" class="btn btn-contact">Delete</a></td>                                            
+                                            <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".viewModal-#i.id#">View</button></td>
                                         </tr>
+                                        <!---Edit Modal --->
+                                        <div class="modal editModal-#i.id#">
+                                            <div class="modal-dialog modal-lg">
+                                            <form method='post' action="components/results.cfc?method=editContact" name="img_form" enctype='multipart/form-data' >
+                                                <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h2 class="modal-title">Edit Contact </h2>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <h3 class="text-left text-contact">Personal Details</h3>
+                                                        <hr>
+                                                        <div class='row justify-content-center'>                                                   
+                                                            <div class="form-group">
+                                                                <div class="col-lg-2">
+                                                                    <label  class="form-label required control-label pt-3" >Title:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <cfoutput>
+                                                                    <input type="hidden" name="user_id" value="#session.sessionUser.user_id#">
+                                                                    </cfoutput>
+                                                                    <input name="contact_id" value="#i.id#" type="hidden">
+                                                                    <select name='title' class='form-control' id="title" required>
+                                                                        <option value="">Select Title</option>
+                                                                        <option value='Miss'>Miss</option>
+                                                                        <option value='Mrs' >Mrs</option>
+                                                                        <option value='Mr' >Mr</option>                                                                
+                                                                    </select> 
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >First Name:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <input type="text" name="f_name" class="form-control" placeholder="Enter First Name" value="#i.first_name#" required>
+                                                                </div>                                                                                                       
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >Last Name:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <input type="text" name="l_name" class="form-control" placeholder="Enter Last Name" value="#i.last_name#" required>
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label" >Gender:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input type="radio" name="gender" value="Male" class="form-check-input" required>
+                                                                        <label class="form-check-label">Male</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input type="radio" name="gender" value="Female" class="form-check-input" required>
+                                                                        <label class="form-check-label">Female</label>
+                                                                    </div>                                                        
+                                                                </div>                                                    
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >Date Of Birth:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <input type="date" name="dob" class="form-control" placeholder="Enter Date Of Birth" value="#i.dob#" required>
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label control-label pt-3" >Upload Photo:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <div>                                                           
+                                                                        <input class="form-control form-control-lg" id="formFileLg" type="file" accept=".png,.jpg,.jpeg" name="user_img">
+                                                                    </div>                                                      
+                                                                </div>                                                    
+                                                            </div>
+                                                        </div>
+                                                        <h3 class="text-left text-contact">Contact Details</h3>
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="form-group">
+                                                                <div class="col-lg-2">
+                                                                        <label class="form-label required control-label pt-3" >Address:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <input type="text" name="address" class="form-control" placeholder="Enter Address" value="#i.address#" required>
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >Street Name:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">                                                                                                                    
+                                                                    <input type="text" name="street" class="form-control" placeholder="Enter Street Name" value="#i.street_name#"required>                                                                                                             
+                                                                </div> 
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-lg-2">
+                                                                        <label class="form-label required control-label pt-3" >City:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">
+                                                                    <input type="text" name="city" class="form-control" placeholder="Enter City" value="#i.city#" required>
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >State:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">                                                                                                                    
+                                                                    <input type="text" name="state" class="form-control" placeholder="Enter State" value="#i.state#" required>                                                                                                             
+                                                                </div>                                                      
+                                                            </div>                                               
+                                                            <div class="form-group">
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >Nationality:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">                                                                                                                    
+                                                                    <input type="text" name="nation" class="form-control" placeholder="Enter Nationality" value="#i.nation#" required>                                                                                                             
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >Pincode:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">                                                                                                                    
+                                                                    <input type="text" name="pincode" id="pincode" class="form-control"  placeholder="Enter Pincode" value="#i.pincode#" required >                                                                                                             
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >Email Id:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">                                                                                                                    
+                                                                    <input type="email" name="email" class="form-control" placeholder="Enter Email Id" value="#i.email_id#" required>                                                                                                             
+                                                                </div>
+                                                                <div class="col-lg-2">
+                                                                    <label class="form-label required control-label pt-3" >Phone Number:</label>
+                                                                </div>
+                                                                <div class="col-lg-4">                                                                                                                    
+                                                                    <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" value="#i.phone_number#" required>                                                                                                             
+                                                                </div>
+                                                            </div>  
+                                                        </div>                                                                                
+                                                    </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-contact" name="submit" value="Edit" onclick="validateCreate();">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                </div>
+                                        <!--- Edit Modal --->
                                         <!--- View Modal --->                                                              
                                         <!-- The Modal -->
-                                        <div class="modal viewModal-#id#" >
+                                        <div class="modal viewModal-#i.id#" >
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <!-- Modal Header -->
@@ -263,7 +428,7 @@
                                                                         Gender: 
                                                                     </div>
                                                                     <div class="col-lg-8">
-                                                                        #gender#
+                                                                        #i.gender#
                                                                     </div>
                                                                 </div>
                                                                 <div class="row pt-3">
@@ -271,7 +436,7 @@
                                                                         Date Of Birth:
                                                                     </div>
                                                                     <div class="col-lg-8">
-                                                                        #dob#
+                                                                        #i.dob#
                                                                     </div>
                                                                 </div>
                                                                 <div class="row pt-3">
@@ -287,7 +452,7 @@
                                                                         Pincode:
                                                                     </div>
                                                                     <div class="col-lg-8">
-                                                                        #pincode#
+                                                                        #i.pincode#
                                                                     </div>
                                                                 </div>
                                                                 <div class="row pt-3">
@@ -295,7 +460,7 @@
                                                                         Email Id
                                                                     </div>
                                                                     <div class="col-lg-8">
-                                                                        #email_id#
+                                                                        #i.email_id#
                                                                     </div>
                                                                 </div>
                                                                  <div class="row pt-3">
@@ -303,13 +468,13 @@
                                                                         Phone Number
                                                                     </div>
                                                                     <div class="col-lg-8">
-                                                                        #phone_number#
+                                                                        #i.phone_number#
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-5">
-                                                                <cfif user_photo NEQ "">
-                                                                    <img src="uploads/#user_photo#" class="img-fluid img-pic">
+                                                                <cfif i.user_photo NEQ "">
+                                                                    <img src="uploads/#i.user_photo#" class="img-fluid img-pic">
                                                                 </cfif>
                                                             </div>
                                                         </div>
@@ -322,9 +487,12 @@
                                             </div>
                                         </div>
                                         <!---View Modal ---> 
-                                    </cfoutput>
+                                    
+                                    
                                 </tbody>
-                            </table>
+                                 </cfloop>
+                            </cfoutput>
+                            </table>                           
                         </div>
                     </div>
                 </div>
