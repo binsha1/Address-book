@@ -144,11 +144,20 @@
     </cffunction>
 
     <cffunction name="deleteData" access="public" output="true">
-        <cfargument  name="id" type="string">    
+        <cfargument  name="id" type="string">
+        
+        <cfset local.delete="1">
+        <cfquery name="loginData" datasource="address_book">
+            SELECT * FROM address_book.user_data WHERE id=<cfqueryparam value="#url.user_id#" >
+        </cfquery> 
+        <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>  
         <cfquery name="contact_data" datasource="address_book" result="contact_del_data">
             DELETE FROM address_book.contacts WHERE id=<cfqueryparam value="#arguments.id#" cfsqltype="CF_SQL_INTEGER">
         </cfquery>
-        <cfreturn contact_del_data.RecordCount>        
+        
+        <cflocation  url="./dashboard.cfm?delete=#local.delete#">
+        
+
     </cffunction>
 
     <cffunction name="editContact" access="remote" output="false">
@@ -227,5 +236,13 @@
             SELECT * FROM address_book.contacts WHERE user_id=<cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">
         </cfquery>
         <cfreturn print_res>
+    </cffunction>
+
+    <cffunction name="downloadPdf" output="true" access="public">
+        <cfargument name="user_id" type="integer">
+        <cfquery name="EmpList" datasource="address_book" result="emp_list"> 
+            SELECT * FROM address_book.contacts WHERE user_id=<cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">
+        </cfquery>
+        <cfreturn EmpList>
     </cffunction>
 </cfcomponent>

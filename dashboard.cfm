@@ -1,5 +1,4 @@
-  
-<cfif structKeyExists(session,"sessionUser" )>
+  <cfif structKeyExists(session,"sessionUser" )>
     <cfparam  name="create" default="v">
     <cfparam  name="delete" default="v">
     <cfparam  name="edit" default="v">
@@ -12,10 +11,11 @@
                     <div class="col-md-12">
                         <h3 class="text-contact">WELCOME</h3>
                         <div class="dashboard_icons">
-                           <p> <i class="fa fa-file-pdf-o"></i>
-                             <i class="fa fa-file-excel-o"></i>
-                             <cfoutput><a href="print.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-print"></i></a></cfoutput>
-                             </p>
+                           <p>
+                                <cfoutput><a href="download_pdf.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-file-pdf-o"></i></a></cfoutput>
+                                <cfoutput><a href="download_excel.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-file-excel-o"></i></a></cfoutput>
+                                <cfoutput><button onclick="printTable('tableView')"><i class="fa fa-print"></i></a></button></cfoutput>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -211,7 +211,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="table-div">                               
+                        <div class="table-div" id="tableView">                               
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -231,14 +231,13 @@
                                     <!---<cfset data=createObject("component","components.results")>
                                     <cfset res=data.contactData()> --->                             
                                     <cfoutput>
-                                    <cfloop array="#sData#" index="i">
-                                    
+                                    <cfloop array="#sData#" index="i">                                    
                                         <cfset name=i.first_name & " " & i.last_name>
                                         <cfset c_name= i.title & " " & i.first_name & " " & i.last_name>
                                         <cfset address_name= i.address & ", " & i.street_name & ", " & i.city & ", " & i.state & ", " & i.nation>
                                         <tr>
                                             <cfif i.user_photo NEQ "">
-                                                <td><img src="uploads/#user_photo#" class="img-fluid img-icon"></td>
+                                                <td><img src="uploads/#i.user_photo#" class="img-fluid img-icon"></td>
                                             <cfelseif i.user_photo EQ "" AND i.gender EQ "Male">
                                                 <td><img src="files/male.png" class="img-fluid img-icon"></td>
                                             <cfelseif i.user_photo EQ "" AND i.gender EQ "Female">
@@ -248,7 +247,7 @@
                                             <td> #i.email_id# </td>
                                             <td> #i.phone_number# </td>  
                                             <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".editModal-#i.id#">Edit</button></td>
-                                            <td><a href="delete.cfm?id=#i.id#" class="btn btn-contact">Delete</a></td>                                            
+                                            <td><a href="delete.cfm?id=#i.id#&user_id=#session.sessionUser.user_id#" class="btn btn-contact">Delete</a></td>                                            
                                             <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".viewModal-#i.id#">View</button></td>
                                         </tr>
                                         <!---Edit Modal --->
@@ -401,7 +400,7 @@
                                         <!--- View Modal --->                                                              
                                         <!-- The Modal -->
                                         <div class="modal viewModal-#i.id#" >
-                                            <div class="modal-dialog modal-lg">
+                                            <div class="modal-dialog modal-lg" >
                                                 <div class="modal-content">
                                                     <!-- Modal Header -->
                                                     <div class="modal-header">
