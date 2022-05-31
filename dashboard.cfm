@@ -1,4 +1,4 @@
-  <cfif structKeyExists(session,"sessionUser" )>
+<cfif structKeyExists(session,"sessionUser" )>
     <cfparam  name="create" default="v">
     <cfparam  name="delete" default="v">
     <cfparam  name="edit" default="v">
@@ -14,7 +14,7 @@
                            <p>
                                 <cfoutput><a href="download_pdf.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-file-pdf-o"></i></a></cfoutput>
                                 <cfoutput><a href="download_excel.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-file-excel-o"></i></a></cfoutput>
-                                <cfoutput><button onclick="printTable('tableView')"><i class="fa fa-print"></i></a></button></cfoutput>
+                                <cfoutput><a href="print.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-print"></i></a></cfoutput>
                             </p>
                         </div>
                     </div>

@@ -15,4 +15,5 @@
         datasource : "address_book",
         useDBForMapping : false
     }>
+    
 </cfcomponent>

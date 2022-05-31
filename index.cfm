@@ -42,8 +42,8 @@
                         <div class="py-3 ">
                             <p>Or Sign In using</p>
                             <div class="social_icons">
-                                <i class="fa fa-facebook-square pr-5"></i>
-                                <i class="fa fa-google-plus"></i> 
+                                <a href="facebook.cfm"><i class="fa fa-facebook-square pr-5"></i></a>
+                                <a href="google.cfm"><i class="fa fa-google-plus"></i></a>
                             </div>
                         </div>
                         <div class="py-4">
