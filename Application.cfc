@@ -14,6 +14,5 @@
         dialect : "org.hibernate.dialect.MySQL5Dialect",
         datasource : "address_book",
         useDBForMapping : false
-    }>
-    
+    }>    
 </cfcomponent>

@@ -245,29 +245,63 @@
         </cfquery>
         <cfreturn EmpList>
     </cffunction>
-    <cffunction name="facebookLogin" access="public" output="true">
-        <cflogin>
-        <cfoauth type = "Facebook" clientid = "YOUR_CLIENT_ID" secretkey = "YOUR_SECRET_KEY"
+    <cffunction name="facebookLogin" access="remote" >        
+        <cfoauth type = "Facebook" clientid = "383729900220687" secretkey = "529a4fdeaae1647ac169e88d13856042"
         result = "res"
-        redirecturi = "http://localhost:8500/doc/login.cfm" >
-        <cfloginuser name = "#res.other.username#" password = "#res.access_token#" roles = "user"/>
-        </cflogin>
-        <cflocation url="http://localhost:8500/doc/index.cfm" >
+        redirecturi = "http://localhost:8500/cf_task2/components/results.cfc?method=facebookLogin" >
+        
+        <cfquery name="loginData" result="queryOut">
+            SELECT *FROM address_book.user_data WHERE 
+            email_id = <cfqueryparam CFSQLType="cf_sql_varchar" value ="#res.id#">  
+        </cfquery>
+        <cfif queryOut.RecordCount GT 0>        
+            <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
+            <cfset Session.logwith = "facebook" />
+            <cflocation url="http://localhost:8500/cf_task2/dashboard.cfm" >
+        <cfelse>
+        
+        
+            <cfquery name="address_book" datasource="address_book" result="result">
+                    INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
+                    VALUES(<cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
+                    <cfqueryparam value="#res.id#" cfsqltype="CF_SQL_VARCHAR">,
+                    <cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
+                    <cfqueryparam value="" cfsqltype="CF_SQL_VARCHAR">                   
+                        )
+                </cfquery>
+                <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
+                <cfset Session.logwith = "facebook" />
+                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
+        </cfif>
     </cffunction>
-    <cffunction name="googleLogin" access="public" output="true">
+    <cffunction name="googleLogin" access="remote" output="true">
          <cfoauth
             type="Google" 
             clientid="789304688534-pg0k44jm7shqa23iag1d45lavb7ulsds.apps.googleusercontent.com" 
-            
+            scope="https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile"
             secretkey="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" 
             result="res"  
-            redirecturi="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
-            <cfquery  datasource="address_book" result="outputquery" name="loginData">
+            redirecturi="http://127.0.0.1:8500/cf_task2/components/results.cfc?method=googleLogin">
+            <cfquery  datasource="address_book" result="res_query" name="loginData">
                 SELECT * FROM address_book.user_data WHERE email_id=<cfqueryparam CFSQLType="cf_sql_varchar" value="#res.other.email#">
             </cfquery>
-            <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
-            <cfset Session.logwith = "google" /> 
-            <cflocation url ="http://127.0.0.1:8500/cf_task/dashboard.cfm">
-
+            <cfif res_query.RecordCount GT 0>
+                <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
+                <cfset Session.logwith = "google" /> 
+                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
+            <cfelse>              
+                
+                <cfquery name="address_book" datasource="address_book" result="result">
+                    INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
+                    VALUES(<cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
+                    <cfqueryparam value="#res.other.email#" cfsqltype="CF_SQL_VARCHAR">,
+                    <cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
+                    <cfqueryparam value="" cfsqltype="CF_SQL_VARCHAR">                   
+                        )
+                </cfquery>
+                <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
+                <cfset Session.logwith = "google" />
+                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
+            </cfif>    
     </cffunction>
 </cfcomponent>

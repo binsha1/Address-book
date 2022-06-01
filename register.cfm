@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 <cfparam name='status' default = "value" >
-=======
->>>>>>> c18831ff2897ed82a2a5bda8f318d2ffd51224c3
 <cfinclude  template="master.cfm">
 <body>
     <cfinclude  template="header.cfm">
@@ -14,7 +11,6 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-<<<<<<< HEAD
                         <h3 class="text-contact pt-5 text-center pb-3">SIGN UP</h3>
                         <cfif status EQ '2'>
                             <div class="alert alert-danger alert-dismissible">
@@ -33,10 +29,8 @@
                             </div>
                         </cfif>
                         <form method='post' name="img_form" action="components/results.cfc?method=registerAccount" class="pt-3">
-=======
                         <h3 class="text-contact pt-5 text-center">SIGN UP</h3>                        
                         <form method='post' name="img_form" action="components/results.cfc?method=registerAccount" class="pt-5">
->>>>>>> c18831ff2897ed82a2a5bda8f318d2ffd51224c3
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
                                     <input type="text" class="form-control" name="full_name" placeholder="Enter Full Name" id="f_name" required="yes">

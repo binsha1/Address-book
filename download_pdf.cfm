@@ -1,9 +1,7 @@
 <cfparam  name="user_id" default="v">
 <cfset s=createObject("component","components.results")>
 <cfset data=s.downloadPdf(user_id)>
-
 <cfheader name="Content-Disposition" value="attachment; filename=myDoc.pdf">
-
 <cfcontent type="application/pdf">
 <cfdocument  format="pdf">   
     
