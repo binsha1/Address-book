@@ -258,9 +258,7 @@
             <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
             <cfset Session.logwith = "facebook" />
             <cflocation url="http://localhost:8500/cf_task2/dashboard.cfm" >
-        <cfelse>
-        
-        
+        <cfelse>       
             <cfquery name="address_book" datasource="address_book" result="result">
                     INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
                     VALUES(<cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
@@ -268,10 +266,10 @@
                     <cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
                     <cfqueryparam value="" cfsqltype="CF_SQL_VARCHAR">                   
                         )
-                </cfquery>
-                <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
-                <cfset Session.logwith = "facebook" />
-                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
+            </cfquery>
+            <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
+            <cfset Session.logwith = "facebook" />
+            <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
         </cfif>
     </cffunction>
     <cffunction name="googleLogin" access="remote" output="true">

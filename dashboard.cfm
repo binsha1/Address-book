@@ -225,7 +225,7 @@
                                 </thead>
                                 <tbody>
                                     <ORMReload()>
-                                    <cfset data = EntityLoad("contacts")>                                     
+                                    <cfset data = EntityLoad("contacts",{user_id="#session.sessionUser.user_id#"})>                                     
                                     <cfset json_data = serializeJSON(data )>
                                     <cfset sData = deserializeJSON(json_data)>   
                                     <!---<cfset data=createObject("component","components.results")>

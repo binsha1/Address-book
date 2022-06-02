@@ -14,5 +14,10 @@
         dialect : "org.hibernate.dialect.MySQL5Dialect",
         datasource : "address_book",
         useDBForMapping : false
-    }>    
+    }> 
+    <cffunction name="onApplicationStart" >
+        <cfset application.datasource="address_book">
+        <cfreturn true>
+    </cffunction>
+
 </cfcomponent>
