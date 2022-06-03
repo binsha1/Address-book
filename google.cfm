@@ -1,2 +1,1 @@
-<cfset data=createObject("component","components.results")>
-<cfset res=data.googleLogin()>
+<cfset res=application.obj.googleLogin()>

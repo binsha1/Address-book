@@ -155,8 +155,7 @@
             DELETE FROM address_book.contacts WHERE id=<cfqueryparam value="#arguments.id#" cfsqltype="CF_SQL_INTEGER">
         </cfquery>
         
-        <cflocation  url="./dashboard.cfm?delete=#local.delete#">
-        
+        <cflocation  url="./dashboard.cfm?delete=#local.delete#">     
 
     </cffunction>
 

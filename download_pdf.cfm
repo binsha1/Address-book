@@ -1,6 +1,5 @@
 <cfparam  name="user_id" default="v">
-<cfset s=createObject("component","components.results")>
-<cfset data=s.downloadPdf(user_id)>
+<cfset data=application.obj.downloadPdf(user_id)>
 <cfdocument  format="pdf" filename="contact_data.pdf" overwrite="Yes"> 
     <cfinclude  template="master.cfm">
         <h3 class="text-center">Contact List</h3>

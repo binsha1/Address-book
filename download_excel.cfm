@@ -1,6 +1,6 @@
 <cfparam  name="user_id" default="v">
-<cfset s=createObject("component","components.results")>
-<cfset data=s.downloadPdf(user_id)>
+
+<cfset data=application.obj.downloadPdf(user_id)>
 <cfset res=queryNew("Name,Date_of_birth,Gender,Address,Pincode,Email,Phone")>
 <cfoutput query="data">
     <cfset c_name= title & ". " & first_name & " " & last_name>
