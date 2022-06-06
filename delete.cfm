@@ -1,4 +1,4 @@
-    <cfparam  name="id" default="v">    
-    <cfset del=application.obj.deleteData(id)>
+<cfparam  name="id" default="v">    
+<cfset del=application.obj.deleteData(id)>
     
 

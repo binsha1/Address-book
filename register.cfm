@@ -27,9 +27,7 @@
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                         Registered Successfully!!
                             </div>
-                        </cfif>
-                        <form method='post' name="img_form" action="components/results.cfc?method=registerAccount" class="pt-3">
-                        <h3 class="text-contact pt-5 text-center">SIGN UP</h3>                        
+                        </cfif>                                                
                         <form method='post' name="img_form" action="components/results.cfc?method=registerAccount" class="pt-5">
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>

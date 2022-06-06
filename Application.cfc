@@ -17,32 +17,30 @@
     }>
 
     <!---OnApplicationStart Method--->
-    <cffunction name="OnApplicationStart" returntype="boolean">
+    <cffunction name="OnApplicationStart" returntype="boolean" access="public">
         <cfset application.obj=createObject('component','components.results')>
         <cfreturn true>
     </cffunction>
 
     <!---OnRequestStart Method--->
-    <cffunction name="OnRequestStart" returntype="boolean">
+    <cffunction name="OnRequestStart" returntype="boolean" access="public">
         <cfset this.onApplicationStart()>
         <cfif isDefined('url.logout')>
             <cflocation  url="index.cfm" addtoken="no">
-        </cfif>
+        </cfif>        
         <cfreturn true>
     </cffunction>
 
-    <cffunction name="onSessionStart" returnType="void" output="false">
+    <cffunction name="onSessionStart" returnType="void" output="false" access="public">
         <cfset session.started = now()>   
-        <cfif structKeyExists(session,'sessionUser')>
-            <cfset s="session">
         
-        <cfelse>
-            <cfset this.onApplicationStart()>
-        </cfif>
-  </cffunction>
+    </cffunction>
     
-    <cffunction name="onSessionEnd" returntype="void">
+    <cffunction name="onSessionEnd" returntype="void" access="public">
         <cfargument name="sessionScope" type="any" required="true" hint="Session Scope"/>
         <cfdump var="#arguments.sessionScope.dateInitialized# : #now()#"/>
+        <cfif NOT structKeyExists(session, 'sessionuser')>
+            <cflocation  url="index.cfm">
+        </cfif>
     </cffunction>    
 </cfcomponent>
