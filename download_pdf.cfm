@@ -21,7 +21,7 @@
                 <cfset address_name= address & ", " & street_name & ", " & city & ", " & state & ", " & nation>
                 <tr>                    
                     <td>#c_name#</td>
-                    <td>#dateFormat('#i.dob#','dd-mm-yyyy')#</td>
+                    <td>#dateFormat('#dob#','dd-mm-yyyy')#</td>
                     <td>#gender#</td>
                     <td>#address_name#</td>
                     <td>#pincode#</td>

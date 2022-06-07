@@ -1,7 +1,5 @@
 <cfparam name='status' default = "value" >
-<cfinclude  template="master.cfm">
-<body>
-    <cfinclude  template="header.cfm">
+<cfinclude  template="header.cfm">
     <div class="container-fluid">
         <div class="container py-5">
             <div class="col-lg-6 offset-lg-3 p-3">                
@@ -65,5 +63,4 @@
             </div>
         </div>
     </div>
-</body>
 <cfinclude  template="footer.cfm">

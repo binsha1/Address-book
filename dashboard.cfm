@@ -1,10 +1,6 @@
 <cfif structKeyExists(session,"sessionUser" )>
-    <cfparam  name="create" default="v">
-    <cfparam  name="delete" default="v">
-    <cfparam  name="edit" default="v">
-    <cfinclude  template="master.cfm">
-    <body>
-        <cfinclude  template="header.cfm">
+    <cfparam  name="status" default="v">    
+    <cfinclude  template="header.cfm">
         <div class="container-fluid">
             <div class="container">
                 <div class="row pt-3 pdf_row">
@@ -14,13 +10,13 @@
                            <p>
                                 <cfoutput><a href="download_pdf.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-file-pdf-o"></i></a></cfoutput>
                                 <cfoutput><a href="download_excel.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-file-excel-o"></i></a></cfoutput>
-                                <cfoutput><a href="print.cfm?user_id=#session.sessionUser.user_id#"><i class="fa fa-print"></i></a></cfoutput>
+                                <cfoutput><a href="print.cfm"><i class="fa fa-print"></i></a></cfoutput>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="row pt-5">
-                    <cfif create EQ '2'>
+                    <!---<cfif create EQ '2'>
                         <div class="alert alert-danger alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 User with Email Id Already Exists!!
@@ -29,22 +25,23 @@
                         <div class="alert alert-danger alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 User with Phone Number Already Exists!!
-                        </div>
-                    <cfelseif create EQ '1'>
+                        </div>--->
+                    <cfif status EQ hash('1','sha')>
                         <div class="alert alert-success alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 Contact Created Successfully!!
                         </div>
-                    <cfelseif delete EQ '1'>
+                    <cfelseif status EQ hash('3','sha')>
                         <div class="alert alert-success alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 Contact Deleted Successfully!!
                         </div>
-                    <cfelseif edit EQ '1'>
+                    <cfelseif status EQ hash('2','sha')>
                         <div class="alert alert-success alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 Contact Edited Successfully!!
                         </div>
+                        <!---
                     <cfelseif edit EQ '2'>
                         <div class="alert alert-danger alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -54,7 +51,7 @@
                         <div class="alert alert-danger alert-dismissible">
                             <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                              User with Phone Number Already Exists!!
-                        </div>
+                        </div>--->
                     </cfif>                    
                     <div class="col-md-4">
                         <div class="contact-card text-center">
@@ -144,7 +141,7 @@
                                             <div class="row">
                                                 <div class="form-group">
                                                     <div class="col-lg-2">
-                                                            <label class="form-label required control-label pt-3" >Address:</label>
+                                                        <label class="form-label required control-label pt-3" >Address:</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <input type="text" name="address" class="form-control" placeholder="Enter Address" required>
@@ -489,8 +486,7 @@
                     </table>                           
                 </div>
             </div>
-        </div>        
-    </body>
+        </div>       
     <cfinclude  template="footer.cfm">
 <cfelse>
     <cflocation  url="index.cfm">
