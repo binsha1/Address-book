@@ -1,9 +1,10 @@
 <cfcomponent output="false">
     <cfset this.name="cf_tasks">
     <cfset this.sessionManagement = "true" >
-    <cfset this.sessionTimeout = createTimespan(0,0,1,0)>
+    <cfset this.sessionTimeout = createTimespan(0,0,30,0)>
     <cfset This.applicationtimeout=createTimespan(2,0,0,0)> 
-    <cfset this.setClientCookies=false>
+    <cfset this.clientManagement="true">
+    <cfset this.setClientCookies=true>
     <cfset this.scriptProtect="all">
     <cfset this.ormenabled="true"> 
     <cfset this.datasource="address_book">
@@ -32,8 +33,7 @@
     </cffunction>
 
     <cffunction name="onSessionStart" returnType="void" output="false" access="public">
-        <cfset session.started = now()>   
-        
+        <cfset session.started = now()>           
     </cffunction>
     
     <cffunction name="onSessionEnd" returntype="void" access="public">
@@ -42,5 +42,6 @@
         <cfif NOT structKeyExists(session, 'sessionuser')>
             <cflocation  url="index.cfm">
         </cfif>
-    </cffunction>    
+    </cffunction>
+
 </cfcomponent>

@@ -1,5 +1,4 @@
-<cfparam  name="user_id" default="v">
-<cfset data=application.obj.downloadPdf(user_id)>
+<cfset data=application.obj.downloadPdf(session.sessionUser.user_id)>
 <cfset res=queryNew("Name,Date_of_birth,Gender,Address,Pincode,Email,Phone")>
 <cfoutput query="data">
     <cfset c_name= title & ". " & first_name & " " & last_name>
@@ -25,3 +24,10 @@
 <cfset spreadsheetAddRows(s, res)>
 <cfheader name="content-disposition" value="attachment; filename=contact_list.xls">
 <cfcontent type="application/msexcel" variable="#spreadsheetReadBinary(s)#" reset="true">
+Status Update	    :  07-06-2022
+Working on 	    : Address Book- Task 2
+Task   		    : Removes CFID, CFtoken values from url | Encrypting value passing through url |
+				  Code Review
+Task Completion : 95%
+ETA                      : 06-06-2022
+link                      : https://github.com/binsha1/Address-book.git

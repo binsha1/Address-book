@@ -32,11 +32,11 @@
                         )
                 </cfquery>
                 <cfif result.RecordCount EQ 1>
-                    <cfset local.status="1">
+                    <cfset local.status=hash('1','sha')>
                 </cfif>
             </cfif>          
         </cfif>
-        <cflocation  url="../register.cfm?status=#local.status#">        
+        <cflocation  url="../index.cfm?status=#local.status#" addtoken="no">        
     </cffunction>
 
     <cffunction name="doLogin" access="remote" output="false" >
@@ -45,20 +45,22 @@
         <cfset local.password=hash(arguments.pwd)>             
         <cfset local.userLoggedIn=false>
         <cfquery name="loginData" datasource="address_book">
-            SELECT * FROM address_book.user_data WHERE user_name=<cfqueryparam value="#arguments.user_name#" cfsqltype="CF_SQL_VARCHAR"> AND password=<cfqueryparam value="#local.password#" cfsqltype="CF_SQL_VARCHAR">
+            SELECT * FROM address_book.user_data 
+            WHERE user_name=<cfqueryparam value="#arguments.user_name#" cfsqltype="CF_SQL_VARCHAR"> 
+            AND password=<cfqueryparam value="#local.password#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>                
         <cfif loginData.recordCount EQ 1>
             <cflogin>
-                <cfloginuser  name="#loginData.user_name#"  password="#loginData.password#" roles="User" >
+                <cfloginuser  name="#loginData.user_name#"  password="#loginData.password#" roles="User">
                 </cfloginuser>
             </cflogin>
             <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
           <cfset local.userLoggedIn=true>
         </cfif>
         <cfif local.userLoggedIn EQ true>
-            <cflocation  url="../dashboard.cfm">
+            <cflocation  url="../dashboard.cfm" addtoken="no">
         <cfelse>
-            <cflocation  url="../index.cfm?invalid=1">
+            <cflocation  url="../index.cfm?status=2" addtoken="no">
         </cfif>
     </cffunction>
 
@@ -87,7 +89,7 @@
             SELECT * FROM address_book.user_data WHERE id=<cfqueryparam value="#arguments.user_id#" >
         </cfquery> 
         <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
-        <cfset local.create="">
+        <cfset local.status="">
         <cfset local.thisDir = expandPath("../uploads")>
         <cfset local.currDir=expandPath("../files")>
         <cfif len(trim(arguments.user_img)) >      
@@ -125,15 +127,16 @@
                         )
             </cfquery>
             <cfif contact_res.RecordCount EQ 1>
-                <cfset local.create="1">
+                <cfset local.status=hash("1","sha")>
             </cfif>
-        </cfif>        
+        </cfif>
+        <!---        
         <cfif contact_email_res.RecordCount NEQ 0>
             <cfset local.create="2">
         <cfelseif contact_phone_res.RecordCount NEQ 0>
             <cfset local.create="3">
-        </cfif>
-        <cflocation  url="../dashboard.cfm?create=#local.create#" AddToken="yes">
+        </cfif>--->
+        <cflocation  url="../dashboard.cfm?status=#local.status#" AddToken="no">
     </cffunction>
 
     <cffunction name="contactData" access="public" output="true">
@@ -144,18 +147,16 @@
     </cffunction>
 
     <cffunction name="deleteData" access="public" output="true">
-        <cfargument  name="id" type="string">
-        
-        <cfset local.delete="1">
+        <cfargument  name="id" type="string">        
+        <cfset local.status=hash("3","sha")>
         <cfquery name="loginData" datasource="address_book">
             SELECT * FROM address_book.user_data WHERE id=<cfqueryparam value="#url.user_id#" >
         </cfquery> 
         <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>  
         <cfquery name="contact_data" datasource="address_book" result="contact_del_data">
             DELETE FROM address_book.contacts WHERE id=<cfqueryparam value="#arguments.id#" cfsqltype="CF_SQL_INTEGER">
-        </cfquery>
-        
-        <cflocation  url="./dashboard.cfm?delete=#local.delete#">     
+        </cfquery>        
+        <cflocation  url="./dashboard.cfm?status=#local.status#" addtoken="no">   
 
     </cffunction>
 
@@ -217,16 +218,16 @@
                     WHERE id=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_INTEGER"> 
             </cfquery>
             <cfif update_res.RecordCount EQ 1>
-                    <cfset local.edit="1">
+                    <cfset local.status=hash('2','sha')>
             </cfif>            
         </cfif>
+        <!---
         <cfif contact_email_res.RecordCount NEQ 0>
             <cfset local.edit="2">
         <cfelseif contact_phone_res.RecordCount NEQ 0>
             <cfset local.edit="3">
-        </cfif>
-        <cflocation  url="../dashboard.cfm?edit=#local.edit#" AddToken="yes">
-
+        </cfif>--->
+        <cflocation  url="../dashboard.cfm?status=#local.status#" AddToken="no">
     </cffunction>
 
     <cffunction name="printFunc" output="true" access="public">
@@ -256,7 +257,7 @@
         <cfif queryOut.RecordCount GT 0>        
             <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
             <cfset Session.logwith = "facebook" />
-            <cflocation url="http://localhost:8500/cf_task2/dashboard.cfm" >
+            <cflocation url="http://localhost:8500/cf_task2/dashboard.cfm" addtoken="no" >
         <cfelse>       
             <cfquery name="address_book" datasource="address_book" result="result">
                     INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
@@ -268,7 +269,7 @@
             </cfquery>
             <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
             <cfset Session.logwith = "facebook" />
-            <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
+            <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm" addtoken="no">
         </cfif>
     </cffunction>
     <cffunction name="googleLogin" access="remote" output="true">
@@ -285,8 +286,8 @@
             <cfif res_query.RecordCount GT 0>
                 <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
                 <cfset Session.logwith = "google" /> 
-                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
-            <cfelse>              
+                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm" addtoken="no">
+            <cfelse>             
                 
                 <cfquery name="address_book" datasource="address_book" result="result">
                     INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
@@ -298,7 +299,7 @@
                 </cfquery>
                 <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
                 <cfset Session.logwith = "google" />
-                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm">
+                <cflocation url ="http://127.0.0.1:8500/cf_task2/dashboard.cfm" addtoken="no">
             </cfif>    
     </cffunction>
 </cfcomponent>

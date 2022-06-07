@@ -1,5 +1,4 @@
-<cfparam  name="user_id" default="v">
-<cfset data=application.obj.downloadPdf(user_id)>
+<cfset data=application.obj.downloadPdf(session.sessionUser.user_id)>
 <cfdocument  format="pdf" filename="contact_data.pdf" overwrite="Yes"> 
     <cfinclude  template="master.cfm">
         <h3 class="text-center">Contact List</h3>
@@ -21,7 +20,7 @@
                 <cfset address_name= address & ", " & street_name & ", " & city & ", " & state & ", " & nation>
                 <tr>                    
                     <td>#c_name#</td>
-                    <td>#dateFormat('#i.dob#','dd-mm-yyyy')#</td>
+                    <td>#dateFormat('#dob#','dd-mm-yyyy')#</td>
                     <td>#gender#</td>
                     <td>#address_name#</td>
                     <td>#pincode#</td>

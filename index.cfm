@@ -1,7 +1,5 @@
-<cfparam  name="invalid" default="val">
-<cfinclude  template="master.cfm">
-<body>
-    <cfinclude  template="header.cfm">
+<cfparam  name="status" default="val">
+<cfinclude  template="header.cfm">
     <div class="container-fluid">
         <div class="container py-5">
             <div class="col-lg-6 offset-lg-3 p-3">                
@@ -12,32 +10,47 @@
                     </div>
                     <div class="col-lg-8">
                         <h3 class="text-contact pt-5 text-center pb-3">LOGIN FORM</h3>
-                        <cfif invalid EQ '1'>                                                
+                        <cfif status EQ '2'>
                             <div class="alert alert-danger alert-dismissible">
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                     Invalid Credentials!!
+                                    Email Already Exists!!
                             </div>
-                        </cfif>
+                        <cfelseif  status EQ '3'>                               
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    User Name Already Exists!!
+                            </div>
+                        <cfelseif status EQ hash('1','sha')>
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        Registered Successfully!!
+                            </div>
+                        <cfelseif status EQ '4'>
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        Invalid Credentials!!
+                            </div>
+                        </cfif>                        
                         <cfif structKeyExists(URL, 'logout')>
                             <cfset logout_user=createObject("component","components.results")>
                             <cfset userLogin=logout_user.doLogout()>
                         </cfif>
                         <form method='post' name="img_form" action="components/results.cfc?method=doLogin" class="pt-3">
-                              <div class="form-group row">                                    
-                                    <div class='col-sm-12'>
-                                          <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="f_name" required="yes">
-                                    </div>
-                              </div>
-                              <div class="form-group row pt-3">                                    
-                                    <div class='col-sm-12'>
-                                          <input type="password" class="form-control" name="pwd" placeholder="Enter Password"  required="yes">
-                                    </div>
-                              </div>          
-                              <div class='form-group row pt-3'>        
-                                    <div class='col-sm-12'>
-                                          <input type="submit" name="Submit"  value="Login " class="btn btn-contact" >
-                                    </div>
-                              </div>
+                            <div class="form-group row">                                    
+                                <div class='col-sm-12'>
+                                    <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="f_name" required="yes">
+                                </div>
+                            </div>
+                            <div class="form-group row pt-3">                                    
+                                <div class='col-sm-12'>
+                                        <input type="password" class="form-control" name="pwd" placeholder="Enter Password"  required="yes">
+                                </div>
+                            </div>          
+                            <div class='form-group row pt-3'>        
+                                <div class='col-sm-12'>
+                                    <input type="submit" name="Submit"  value="Login " class="btn btn-contact" >
+                                </div>
+                            </div>
                         </form>
                         <div class="py-3 ">
                             <p>Or Sign In using</p>
@@ -54,4 +67,4 @@
             </div>
         </div>
     </div>
-</body>
+<cfinclude  template="footer.cfm">
