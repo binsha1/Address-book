@@ -59,153 +59,9 @@
                                 <img src="files/user_image.png" class="img-fluid img-contact">
                             </div>
                             <h3 class="text-uppercase"><cfoutput>#session.sessionUser.full_name#</cfoutput></h3>
-                            <button type="button" class="btn btn-contact" data-bs-toggle="modal" data-bs-target="#myModal">Create Contact</button>
+                            <button type="button" class="btn btn-contact create title" data-bs-toggle="modal" data-bs-target=".myModal" data-id="0" >Create Contact</button>
                         </div>
-                        <!-- Modal -->                        
-                        <div class="modal" id="myModal">
-                            <div class="modal-dialog modal-lg">
-                                <form method='post' action="components/results.cfc?method=createContact" name="img_form" enctype='multipart/form-data' >
-                                    <div class="modal-content">
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                            <h2 class="modal-title">CREATE CONTACT </h2>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <!-- Modal body -->
-                                        <div class="modal-body">
-                                            <h3 class="text-left text-contact">Personal Details</h3>
-                                            <hr>
-                                            <div class='row justify-content-center'>                                                   
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label  class="form-label required control-label pt-3" >Title:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <cfoutput>
-                                                            <input type="hidden" name="user_id" value="#session.sessionUser.user_id#">
-                                                        </cfoutput>
-                                                        <select name='title' class='form-control' id="title" required>
-                                                            <option value="">Select Title</option>
-                                                            <option value='Miss'>Miss</option>
-                                                            <option value='Mrs' >Mrs</option>
-                                                            <option value='Mr' >Mr</option>                                                                
-                                                        </select> 
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >First Name:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="text" name="f_name" class="form-control" placeholder="Enter First Name" required>
-                                                    </div>                                                                                                       
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Last Name:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="text" name="l_name" class="form-control" placeholder="Enter Last Name" required>
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label" >Gender:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="form-check form-check-inline">
-                                                            <input type="radio" name="gender" value="Male" class="form-check-input" required>
-                                                            <label class="form-check-label">Male</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input type="radio" name="gender" value="Female" class="form-check-input" required>
-                                                            <label class="form-check-label">Female</label>
-                                                        </div>                                                        
-                                                    </div>                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Date Of Birth:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="date" name="dob" class="form-control" placeholder="Enter Date Of Birth" required>
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label control-label pt-3" >Upload Photo:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div>                                                           
-                                                            <input class="form-control form-control-lg" id="formFileLg" type="file" accept=".png,.jpg,.jpeg" name="user_img">
-                                                        </div>                                                      
-                                                    </div>                                                    
-                                                </div>
-                                            </div>
-                                            <h3 class="text-left text-contact">Contact Details</h3>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Address:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="text" name="address" class="form-control" placeholder="Enter Address" required>
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Street Name:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">                                                                                                                    
-                                                        <input type="text" name="street_name" class="form-control" placeholder="Enter Street Name" required>                                                                                                             
-                                                    </div> 
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                            <label class="form-label required control-label pt-3" >City:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <input type="text" name="city" class="form-control" placeholder="Enter City" required>
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >State:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">                                                                                                                    
-                                                        <input type="text" name="state" class="form-control" placeholder="Enter State" required>                                                                                                             
-                                                    </div>                                                      
-                                                </div>                                               
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Nationality:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">                                                                                                                    
-                                                        <input type="text" name="nation" class="form-control" placeholder="Enter Nationality" required>                                                                                                             
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Pincode:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">                                                                                                                    
-                                                        <input type="text" name="pincode" id="pincode" class="form-control"  placeholder="Enter Pincode"  required >                                                                                                             
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Email Id:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">                                                                                                                    
-                                                        <input type="email" name="email_id" class="form-control" placeholder="Enter Email Id" required>                                                                                                             
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <label class="form-label required control-label pt-3" >Phone Number:</label>
-                                                    </div>
-                                                    <div class="col-lg-4">                                                                                                                    
-                                                        <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" required>                                                                                                             
-                                                    </div>
-                                                </div>  
-                                            </div>                                                                                
-                                        </div>
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                            <input type="submit" class="btn btn-contact" name="submit" value="Create" onclick="validateCreate();">
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="col-md-8">
                         <div class="table-div" id="tableView">                               
@@ -241,160 +97,15 @@
                                                 <td> #name# </td> 
                                                 <td> #i.email_id# </td>
                                                 <td> #i.phone_number# </td>  
-                                                <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".editModal-#i.id#">Edit</button></td>
+                                                <td><button class="btn btn-primary edit title" data-bs-toggle="modal" data-bs-target=".myModal" data-id="#i.id#" id="edit">Edit</button></td>
                                                 <td><a href="delete.cfm?id=#i.id#&user_id=#session.sessionUser.user_id#" class="btn btn-contact">Delete</a></td>                                            
-                                                <td><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".viewModal-#i.id#">View</button></td>
+                                                <td><button class="btn btn-primary view" data-bs-toggle="modal" data-bs-target=".viewModal" data-id="#i.id#">View</button></td>
                                             </tr>
-                                            <!---Edit Modal --->
-                                            <div class="modal editModal-#i.id#">
-                                                <div class="modal-dialog modal-lg">
-                                                <form method='post' action="components/results.cfc?method=editContact" name="img_form" enctype='multipart/form-data' >
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h2 class="modal-title">Edit Contact </h2>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <div class="modal-body">
-                                                            <h3 class="text-left text-contact">Personal Details</h3>
-                                                            <hr>
-                                                            <div class='row justify-content-center'>                                                   
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-2">
-                                                                        <label  class="form-label required control-label pt-3" >Title:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <cfoutput>
-                                                                            <input type="hidden" name="user_id" value="#session.sessionUser.user_id#">
-                                                                        </cfoutput>
-                                                                        <input name="contact_id" value="#i.id#" type="hidden">
-                                                                        <select name='title' class='form-control' id="title" required>
-                                                                            <option value="">Select Title</option>
-                                                                            <option value='Miss'>Miss</option>
-                                                                            <option value='Mrs' >Mrs</option>
-                                                                            <option value='Mr' >Mr</option>                                                                
-                                                                        </select> 
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >First Name:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <input type="text" name="f_name" class="form-control" placeholder="Enter First Name" value="#i.first_name#" required>
-                                                                    </div>                                                                                                       
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >Last Name:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <input type="text" name="l_name" class="form-control" placeholder="Enter Last Name" value="#i.last_name#" required>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label" >Gender:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <div class="form-check form-check-inline">
-                                                                            <input type="radio" name="gender" value="Male" class="form-check-input" required>
-                                                                            <label class="form-check-label">Male</label>
-                                                                        </div>
-                                                                        <div class="form-check form-check-inline">
-                                                                            <input type="radio" name="gender" value="Female" class="form-check-input" required>
-                                                                            <label class="form-check-label">Female</label>
-                                                                        </div>                                                        
-                                                                    </div>                                                    
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >Date Of Birth:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <input type="date" name="dob" class="form-control" placeholder="Enter Date Of Birth" value="#i.dob#" required>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label control-label pt-3" >Upload Photo:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <div>                                                           
-                                                                            <input class="form-control form-control-lg" id="formFileLg" type="file" accept=".png,.jpg,.jpeg" name="user_img">
-                                                                        </div>                                                      
-                                                                    </div>                                                    
-                                                                </div>
-                                                            </div>
-                                                            <h3 class="text-left text-contact">Contact Details</h3>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-2">
-                                                                            <label class="form-label required control-label pt-3" >Address:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <input type="text" name="address" class="form-control" placeholder="Enter Address" value="#i.address#" required>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >Street Name:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">                                                                                                                    
-                                                                        <input type="text" name="street" class="form-control" placeholder="Enter Street Name" value="#i.street_name#"required>                                                                                                             
-                                                                    </div> 
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-2">
-                                                                            <label class="form-label required control-label pt-3" >City:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">
-                                                                        <input type="text" name="city" class="form-control" placeholder="Enter City" value="#i.city#" required>
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >State:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">                                                                                                                    
-                                                                        <input type="text" name="state" class="form-control" placeholder="Enter State" value="#i.state#" required>                                                                                                             
-                                                                    </div>                                                      
-                                                                </div>                                               
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >Nationality:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">                                                                                                                    
-                                                                        <input type="text" name="nation" class="form-control" placeholder="Enter Nationality" value="#i.nation#" required>                                                                                                             
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >Pincode:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">                                                                                                                    
-                                                                        <input type="text" name="pincode" id="pincode" class="form-control"  placeholder="Enter Pincode" value="#i.pincode#" required >                                                                                                             
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >Email Id:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">                                                                                                                    
-                                                                        <input type="email" name="email" class="form-control" placeholder="Enter Email Id" value="#i.email_id#" required>                                                                                                             
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        <label class="form-label required control-label pt-3" >Phone Number:</label>
-                                                                    </div>
-                                                                    <div class="col-lg-4">                                                                                                                    
-                                                                        <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" value="#i.phone_number#" required>                                                                                                             
-                                                                    </div>
-                                                                </div>  
-                                                            </div>                                                                                
-                                                        </div>
-                                                        <!-- Modal footer -->
-                                                        <div class="modal-footer">
-                                                            <input type="submit" class="btn btn-contact" name="submit" value="Edit" onclick="validateCreate();">
-                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <!--- Edit Modal --->
+                                        
+                        <!---Create Modal--->                                        
                                         <!--- View Modal --->                                                              
                                         <!-- The Modal -->
-                                        <div class="modal viewModal-#i.id#" >
+                                        <div class="modal viewModal" >
                                             <div class="modal-dialog modal-lg" >
                                                 <div class="modal-content">
                                                     <!-- Modal Header -->
@@ -411,7 +122,7 @@
                                                                     Name: 
                                                                 </div>
                                                                 <div class="col-lg-8">
-                                                                    #c_name#
+                                                                    <p id="full_name"></p>
                                                                 </div>
                                                             </div>
                                                             <div class="row pt-3">
@@ -419,7 +130,7 @@
                                                                     Gender: 
                                                                 </div>
                                                                 <div class="col-lg-8">
-                                                                    #i.gender#
+                                                                   <p id="gender"></p>
                                                                 </div>
                                                             </div>
                                                             <div class="row pt-3">
@@ -427,7 +138,7 @@
                                                                     Date Of Birth:
                                                                 </div>
                                                                 <div class="col-lg-8">
-                                                                    #dateFormat('#i.dob#','dd-mm-yyyy')#
+                                                                    <p id="d_birth"></p>
                                                                 </div>
                                                             </div>
                                                             <div class="row pt-3">
@@ -435,7 +146,7 @@
                                                                     Address:
                                                                 </div>
                                                                 <div class="col-lg-8">
-                                                                    #address_name#
+                                                                   <p id="addr"></p>
                                                                 </div>
                                                             </div>
                                                             <div class="row pt-3">
@@ -443,7 +154,7 @@
                                                                     Pincode:
                                                                 </div>
                                                                 <div class="col-lg-8">
-                                                                    #i.pincode#
+                                                                    <p id="pin"></p>
                                                                 </div>
                                                             </div>
                                                             <div class="row pt-3">
@@ -451,7 +162,7 @@
                                                                     Email Id
                                                                 </div>
                                                                 <div class="col-lg-8">
-                                                                    #i.email_id#
+                                                                    <p id="email"></p>
                                                                 </div>
                                                             </div>
                                                             <div class="row pt-3">
@@ -459,14 +170,15 @@
                                                                     Phone Number
                                                                 </div>
                                                                 <div class="col-lg-8">
-                                                                    #i.phone_number#
+                                                                    <p id="phone"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-5">
-                                                            <cfif i.user_photo NEQ "">
+                                                            <p id="user_img"></p>
+                                                            <!---<cfif i.user_photo NEQ "">
                                                                 <img src="uploads/#i.user_photo#" class="img-fluid img-pic">
-                                                            </cfif>
+                                                            </cfif>--->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -486,8 +198,156 @@
                     </table>                           
                 </div>
             </div>
-        </div>       
-    <cfinclude  template="footer.cfm">
+        </div>
+         <!--Create Modal -->                        
+                        <div class="modal myModal" >
+                            <div class="modal-dialog modal-lg">
+                                <form method='post' action="" name="img_form" id="formId" enctype='multipart/form-data' >
+                                    <div class="modal-content">
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h2 class="modal-title"id="modal_title"> </h2>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <h3 class="text-left text-contact">Personal Details</h3>
+                                            <hr>
+                                            <div class='row justify-content-center'>                                                   
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label  class="form-label required control-label pt-3" >Title:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <cfoutput>
+                                                            <input type="hidden" name="user_id" value="#session.sessionUser.user_id#">
+                                                            <input name="contact_id" id="contact_id" type="hidden">
+                                                        </cfoutput>
+                                                        <select name='title' class='form-control' id="title" required>
+                                                            <option value="">Select Title</option>
+                                                            <option value='Miss'>Miss</option>
+                                                            <option value='Mrs' >Mrs</option>
+                                                            <option value='Mr' >Mr</option>                                                                
+                                                        </select> 
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >First Name:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" name="f_name" class="form-control" id="f_name" placeholder="Enter First Name" value="" required>
+                                                    </div>                                                                                                       
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Last Name:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" name="l_name" class="form-control" placeholder="Enter Last Name" id="l_name" required>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label" >Gender:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="form-check form-check-inline">
+                                                            <input type="radio" name="gender" value="Male" class="form-check-input" required>
+                                                            <label class="form-check-label">Male</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input type="radio" name="gender" value="Female" class="form-check-input" required>
+                                                            <label class="form-check-label">Female</label>
+                                                        </div>                                                        
+                                                    </div>                                                    
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Date Of Birth:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="date" name="dob" class="form-control" placeholder="Enter Date Of Birth" id="dob" required>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label control-label pt-3" >Upload Photo:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div>                                                           
+                                                            <input class="form-control form-control-lg" id="formFileLg" type="file" accept=".png,.jpg,.jpeg" name="user_img">
+                                                        </div>                                                      
+                                                    </div>                                                    
+                                                </div>
+                                            </div>
+                                            <h3 class="text-left text-contact">Contact Details</h3>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Address:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" name="address" class="form-control" placeholder="Enter Address" id="address" required>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Street Name:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">                                                                                                                    
+                                                        <input type="text" name="street_name" class="form-control" placeholder="Enter Street Name" id="street" required>                                                                                                             
+                                                    </div> 
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                            <label class="form-label required control-label pt-3" >City:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <input type="text" name="city" class="form-control" placeholder="Enter City" id="city" required>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >State:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">                                                                                                                    
+                                                        <input type="text" name="state" class="form-control" placeholder="Enter State" id="state" required>                                                                                                             
+                                                    </div>                                                      
+                                                </div>                                               
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Nationality:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">                                                                                                                    
+                                                        <input type="text" name="nation" class="form-control" placeholder="Enter Nationality" id="nation" required>                                                                                                             
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Pincode:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">                                                                                                                    
+                                                        <input type="text" name="pincode"  class="form-control"  placeholder="Enter Pincode" id="pincode" required >                                                                                                             
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Email Id:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">                                                                                                                    
+                                                        <input type="email" name="email_id" class="form-control" placeholder="Enter Email Id" id="email_id" onchange="validateEmail();" required>                                                                                                             
+                                                        <p class="email_alert text-danger"></p>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <label class="form-label required control-label pt-3" >Phone Number:</label>
+                                                    </div>
+                                                    <div class="col-lg-4">                                                                                                                    
+                                                        <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" id="phone" onchange="validatePhone();" required>                                                                                                             
+                                                        <p class="phone_alert text-danger"></p>
+                                                    </div>
+                                                </div>  
+                                            </div>                                                                                
+                                        </div>
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-contact" name="submit" value="Submit" id="sub_btn" onclick="validateCreate();">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> 
+<cfinclude  template="footer.cfm">
 <cfelse>
-    <cflocation  url="index.cfm">
+    <cflocation  url="index.cfm" addtoken="no">
 </cfif>
