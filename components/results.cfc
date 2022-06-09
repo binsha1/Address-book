@@ -290,11 +290,16 @@
             <cfelse>             
                 
                 <cfquery name="address_book" datasource="address_book" result="result">
-                    INSERT INTO address_book.user_data(full_name,email_id,user_name,password) 
-                    VALUES(<cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
-                    <cfqueryparam value="#res.other.email#" cfsqltype="CF_SQL_VARCHAR">,
-                    <cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
-                    <cfqueryparam value="" cfsqltype="CF_SQL_VARCHAR">                   
+                    INSERT INTO address_book.user_data(
+                        full_name,
+                        email_id,
+                        user_name,
+                        password) 
+                    VALUES(
+                        <cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#res.other.email#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="#res.name#" cfsqltype="CF_SQL_VARCHAR">,
+                        <cfqueryparam value="" cfsqltype="CF_SQL_VARCHAR">                   
                         )
                 </cfquery>
                 <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
@@ -305,7 +310,7 @@
 
      <cffunction name="getContactData" access="remote" returnFormat = "json">
       <cfargument name="id" type="integer" required="false" >
-      <cfquery name="contacts" result="contact_res" datasource="address_book" >
+      <cfquery name="contacts" result="contact_res" datasource="address_book" returntype="array" >
             SELECT * FROM address_book.contacts
             WHERE id=<cfqueryparam value="#arguments.id#" cfsqltype="CF_SQL_INTEGER">
       </cfquery>  
@@ -328,6 +333,24 @@
             WHERE phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR">
       </cfquery>  
       <cfreturn phone_res> 
+    </cffunction>
+
+    <cffunction name="getUserEmailData" access="remote" returnFormat = "json" >
+      <cfargument name="email" type="string" required="false" >
+      <cfquery name="contacts"  datasource="address_book" result="email_res">
+            SELECT * FROM address_book.user_data
+            WHERE email_id=<cfqueryparam value="#arguments.email#" cfsqltype="CF_SQL_VARCHAR">
+      </cfquery>  
+      <cfreturn email_res> 
+    </cffunction>
+
+    <cffunction name="getUserName" access="remote" returnFormat = "json" >
+      <cfargument name="user_name" type="string" required="false" >
+      <cfquery name="contacts"  datasource="address_book" result="user_res">
+            SELECT * FROM address_book.user_data
+            WHERE user_name=<cfqueryparam value="#arguments.user_name#" cfsqltype="CF_SQL_VARCHAR">
+      </cfquery>  
+      <cfreturn user_res> 
     </cffunction>
 
 </cfcomponent>

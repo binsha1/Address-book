@@ -24,10 +24,3 @@
 <cfset spreadsheetAddRows(s, res)>
 <cfheader name="content-disposition" value="attachment; filename=contact_list.xls">
 <cfcontent type="application/msexcel" variable="#spreadsheetReadBinary(s)#" reset="true">
-Status Update	    :  07-06-2022
-Working on 	    : Address Book- Task 2
-Task   		    : Removes CFID, CFtoken values from url | Encrypting value passing through url |
-				  Code Review
-Task Completion : 95%
-ETA                      : 06-06-2022
-link                      : https://github.com/binsha1/Address-book.git

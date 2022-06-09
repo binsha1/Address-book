@@ -43,12 +43,10 @@ function validateCreate(){
         phone.setCustomValidity('Phone number should be 10 digit number');
         phone.value="";
         phone.focus();
-        
     }
     else{
         phone.setCustomValidity('');
     }   
-   
 
 }
 function printTable(divName) {
@@ -58,77 +56,78 @@ function printTable(divName) {
     window.print();   
    // document.body.innerHTML = originalContents;
 }
-$('.myModal').on('shown.bs.modal', function(e){
+/*$('.myModal').on('shown.bs.modal', function(e){
     var s=$('.create').data('id');
     var ed=$(this).data('id');
     var data=$('#edit').data('id');
     
-});
-$('.view').on('click',function(){
-    var contact_id=$(this).data('id');    
+});*/
+$('.view_btn').on('click',function(){
+    var contact_id=$(this).data('id'); 
     $.ajax({
-        url: "./components/results.cfc",
-            type: 'get',
-            dataType:"json",
-            data:{
-            method:"getContactData",
-              id:contact_id              
-            },
-            success: function(data)
-            {
-                console.log(data);
-                var name=data.DATA[0][2]+ " "+ data.DATA[0][3];
-                var address=data.DATA[0][6]+ " "+ data.DATA[0][7]+ " "+ data.DATA[0][8]+ " "+ data.DATA[0][9]+ " "+ data.DATA[0][10];
-                $('#full_name').text(name);
-                $('#gender').text(data.DATA[0][4]);
-                $('#d_birth').text(data.DATA[0][5]);
-                $('#addr').text(address);
-                $('#pin').text(data.DATA[0][12]);
-                $('#email').text(data.DATA[0][11]);
-                $('#phone').text(data.DATA[0][13]);
-                var img=data.DATA[0][14];
-                if(img!="")
+                url: "./components/results.cfc",
+                type: 'get',
+                dataType:"json",
+                data:{
+                method:"getContactData",
+                id:contact_id              
+                },
+                success: function(data)
                 {
-                    $("#user_img").append('<img src="./uploads/'+img+'" class="img-fluid img-pic">');
+                    console.log(data);
+                    var name=data[0].first_name+ " "+ data[0].last_name;                
+                    var address=data[0].address+ ", "+ data[0].street_name+ ", "+ data[0].city+ ", "+ data[0].state+ ", "+ data[0].nation+".";
+                    $('#full_name').text(name);
+                    $('#gender').text(data[0].gender);
+                    $('#d_birth').text(data[0].dob);
+                    $('#addr').text(address);
+                    $('#pin').text(data[0].pincode);
+                    $('#email').text(data[0].email_id);
+                    $('#phone').text(data[0].phone_number);
+                    var img=data[0].user_photo;
+                    if(img!="")                {
+                        $("#user_img").html('<img src="./uploads/'+img+'" class="img-fluid img-pic">');
+                    }
+                    else{
+                        $("#user_img").text("");
+                    }
                 }
-            }
-    })
+            });
 });
-
 $('.title').on('click',function(){
     var contact_id=$(this).data('id');    
     if(contact_id>0)
     {
         $("#modal_title").text("EDIT CONTACT");
         $.ajax({   
-            url: "./components/results.cfc",
-            type: 'get',
-            dataType:"json",
-            data:{
-            method:"getContactData",
-              id:contact_id              
-            },
-            success: function(data)
-            {
-                console.log(data);
-                $('#contact_id').val(data.DATA[0][0]);
-                $('#f_name').val(data.DATA[0][2]);
-                $('#l_name').val(data.DATA[0][3]);
-                $('#dob').val(data.DATA[0][5]);
-                $('#address').val(data.DATA[0][6]);
-                $('#street').val(data.DATA[0][7]);
-                $('#city').val(data.DATA[0][8]);
-                $('#state').val(data.DATA[0][9]);
-                $('#nation').val(data.DATA[0][10]);
-                $('[name="pincode"]').attr('value',data.DATA[0][12]);
-                $('#email_id').val(data.DATA[0][11]);
-                $('[name="phone"]').val(data.DATA[0][13]); 
-                $('#formId').attr('action', './components/results.cfc?method=editContact');              
-              
-            }         
-        });   
+                    url: "./components/results.cfc",
+                    type: 'get',
+                    dataType:"json",
+                    data:{
+                    method:"getContactData",
+                    id:contact_id              
+                    },
+                    success: function(data)
+                    {
+                        console.log(data);
+                        $('#contact_id').val(data[0].id);
+                        $('#f_name').val(data[0].first_name);
+                        $('#l_name').val(data[0].last_name);
+                        $('#dob').val(data[0].dob);
+                        $('#address').val(data[0].address);
+                        $('#street').val(data[0].street_name);
+                        $('#city').val(data[0].city);
+                        $('#state').val(data[0].state);
+                        $('#nation').val(data[0].nation);
+                        $('[name="pincode"]').val(data[0].pincode);
+                        $('#email_id').val(data[0].email_id);
+                        $('[name="phone"]').val(data[0].phone_number); 
+                        $('#formId').attr('action', './components/results.cfc?method=editContact');             
+                    }         
+                });   
     }
-    else{
+    else
+    {        
         $("#modal_title").text("CREATE CONTACT");
         $('#f_name').val("");
         $('#l_name').val("");
@@ -140,13 +139,13 @@ $('.title').on('click',function(){
         $('#nation').val("");
         $('#email_id').val("");
         $('#pincode').val("");
-        $('#phone').val("");
+        $('[name="phone"]').val("");
         $('#formId').attr('action', './components/results.cfc?method=createContact'); 
     }
-   });
+});
    function validateEmail()
    {
-       var email_id=$('#email_id').val();
+       var email_id=$('#email_id').val();       
        $.ajax({   
         url: "./components/results.cfc",
         type: 'get',
@@ -168,13 +167,14 @@ $('.title').on('click',function(){
                 $('#sub_btn').prop('disabled', false);
             }                         
         }         
-    });
-       
+    });       
    }
    function validatePhone()
    {
-       var ph_num=$('#phone').val();
-       alert(ph_num);
+       var ph_num=$('[name="phone').val();
+       var c_id=$('#contact_id').val(); 
+       $('.phone_alert').attr('id', 'phone_alert'+c_id);
+           
        $.ajax({   
         url: "./components/results.cfc",
         type: 'get',
@@ -188,15 +188,76 @@ $('.title').on('click',function(){
             console.log(data);            
             if(data.RECORDCOUNT==1)
             {
-                $('.phone_alert').text('Phone Number Already Exists!!');
+                
+                $('#phone_alert'+c_id).text('Phone Number Already Exists!!');
                 $('#sub_btn').prop('disabled', true);
+                
             }
             else{
-                $('.phone_alert').text(" ");
+
+                $('.phone_alert').text("");
                 $('#sub_btn').prop('disabled', false);
             }                         
         }         
     });
        
    }
+   function checkEmail(){
+       var email_add=$('#email_add').val();
+       $.ajax({   
+        url: "./components/results.cfc",
+        type: 'get',
+        dataType:"json",
+        data:{
+        method:"getUserEmailData",
+          email:email_add              
+        },
+        success: function(data)
+        {
+            console.log(data);            
+            if(data.RECORDCOUNT==1)
+            {
+                $('.reg_email').css('display','block');
+                $('.reg_email').text('Email Already Exists!!')
+                $('#reg_btn').prop('disabled', true);
+            }
+            else{
+                $('.reg_email').css('display','none');
+                $('.reg_email').text("");
+                $('#reg_btn').prop('disabled', false);
+            }                         
+        }         
+    });      
+    }
+    function checkUserName()
+    {
+        var u_name=$('#user_name').val();
+       $.ajax({   
+        url: "./components/results.cfc",
+        type: 'get',
+        dataType:"json",
+        data:{
+        method:"getUserName",
+          user_name:u_name              
+        },
+        success: function(data)
+        {
+            console.log(data);            
+            if(data.RECORDCOUNT==1)
+            {
+                $('.reg_user').css('display','block');
+                $('.reg_user').text('User Name Already Exists!!')
+                $('#reg_btn').prop('disabled', true);
+            }
+            else{
+                $('.reg_user').css('display','none');
+                $('.reg_user').text("");
+                $('#reg_btn').prop('disabled', false);
+            }                         
+        }         
+    });      
+    }
+ $('.myModal').on('hidden.bs.modal', function (e) {
+       location.reload();   
+  });
         

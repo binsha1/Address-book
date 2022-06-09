@@ -120,3 +120,9 @@ img.img-fluid.img-pic {
     height: 70%;}
 #print_div{
 }
+.reg_email{
+    display: none;
+}
+.reg_user{
+    display: none;
+}

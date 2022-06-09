@@ -36,12 +36,9 @@
         <cfset session.started = now()>           
     </cffunction>
     
-    <cffunction name="onSessionEnd" returntype="void" access="public">
+    <!---<cffunction name="onSessionEnd" returntype="void" access="public">
         <cfargument name="sessionScope" type="any" required="true" hint="Session Scope"/>
-        <cfdump var="#arguments.sessionScope.dateInitialized# : #now()#"/>
-        <cfif NOT structKeyExists(session, 'sessionuser')>
-            <cflocation  url="index.cfm">
-        </cfif>
-    </cffunction>
+        <cfdump var="#arguments.sessionScope.dateInitialized# : #now()#"/>        
+    </cffunction>--->
 
 </cfcomponent>

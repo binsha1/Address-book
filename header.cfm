@@ -14,7 +14,7 @@
         <nav class="navbar navbar-contact ">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">ADDRESS BOOK</a>
+                    <a class="navbar-brand" href="dashboard.cfm">ADDRESS BOOK</a>
                 </div>
                 <ul class="nav navbar-nav">            
                 </ul> 
