@@ -5,8 +5,9 @@
         <div class="container">
             <div class="row pt-3 pdf_row">
                 <div class="col-md-12">
-                    <h3 class="text-contact">WELCOME</h3>
+                    
                     <div class="dashboard_icons">
+                        <h3 class="text-contact">WELCOME</h3>
                         <p>
                             <cfoutput><a href="download_pdf.cfm"><i class="fa fa-file-pdf-o"></i></a></cfoutput>
                             <cfoutput><a href="download_excel.cfm"><i class="fa fa-file-excel-o"></i></a></cfoutput>

@@ -8,7 +8,7 @@ function validatePassword()
         confirm.setCustomValidity('Passwords do not match');
     } 
 }
-function validatePasswordField(){
+/*function validatePasswordField(){
     var passwordInput=document.querySelector('input[name=pwd]');
     var confirmPasswordInput=document.querySelector('input[name=c_pwd]');
     var symbolPattern = /[\!\@\#\$\%\^\&\*]/g;
@@ -18,10 +18,26 @@ function validatePasswordField(){
     var pass=passwordInput.value;
     if ((pass.length<8) || (!pass.match(symbolPattern)) || (!pass.match(numberPattern)) ||(!pass.match(lowercasePattern)) ||(!pass.match(uppercasePattern)))
     {
-        passwordInput.setCustomValidity('Please match the requested format: Minimum 8 characters, Contain atleast 1 lowercase ,uppercase character, Atleast 1 Number');
+        passwordInput.setCustomValidity('Please match the requested format: Minimum 8 characters, Contain atleast 1 lowercase ,uppercase character, Atleast 1 Number,1 special character');
     }
     
+}*/
+function validatePasswordField()
+{
+    var passwordInput=document.querySelector('input[name=pwd]');
+    var symbolPattern=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;    
+    if(passwordInput.value.match(symbolPattern)) 
+    {  
+        passwordInput.setCustomValidity('');      
+        return true;
+    }
+    else{
+        passwordInput.setCustomValidity('Please match the requested format: Minimum 8 characters, Contain atleast 1 lowercase ,uppercase character, Atleast 1 Number,1 special character');
+        return false;
+    }
+
 }
+
 function validateCreate(){
     
     var pincode=document.querySelector('input[name=pincode]');
