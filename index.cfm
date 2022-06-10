@@ -25,7 +25,7 @@
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                         Registered Successfully!!
                             </div>
-                        <cfelseif status EQ '4'>
+                        <cfelseif status EQ hash('2','sha')>
                             <div class="alert alert-danger alert-dismissible">
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                         Invalid Credentials!!
