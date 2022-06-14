@@ -28,13 +28,9 @@
                         <cfelseif status EQ hash('2','sha')>
                             <div class="alert alert-danger alert-dismissible">
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        Invalid Credentials!!
+                                    Invalid Credentials!!
                             </div>
-                        </cfif>                        
-                        <cfif structKeyExists(URL, 'logout')>
-                            <cfset logout_user=createObject("component","components.results")>
-                            <cfset userLogin=logout_user.doLogout()>
-                        </cfif>
+                        </cfif>                       
                         <form method='post' name="img_form" action="components/results.cfc?method=doLogin" class="pt-3">
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
@@ -55,8 +51,8 @@
                         <div class="py-3 ">
                             <p>Or Sign In using</p>
                             <div class="social_icons">
-                                <a href="facebook.cfm"><i class="fa fa-facebook-square pr-5"></i></a>
-                                <a href="google.cfm"><i class="fa fa-google-plus"></i></a>
+                                <a href="facebook.cfm"><i class="fa-brands fa-facebook"></i></a>
+                                <a href="google.cfm"><i class="fa-brands fa-google-plus-g"></i></a>
                             </div>
                         </div>
                         <div class="py-4">

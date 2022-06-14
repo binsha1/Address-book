@@ -1,4 +1,4 @@
-<cfcomponent accessors="TRUE">
+<cfcomponent>
     <cffunction  name="registerAccount" output="true" access="remote">
         <cfargument  name="full_name" type="string">
         <cfargument  name="email_id" type="string">
@@ -16,10 +16,10 @@
             WHERE user_name=<cfqueryparam value="#arguments.user_name#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>
         <cfif email_res.RecordCount NEQ 0>
-            <cfset local.status="2">
+            <cfset local.status=hash('2','sha')>
         </cfif>
         <cfif user_res.RecordCount NEQ 0>
-            <cfset local.status="3">            
+            <cfset local.status=hash('3','sha')>            
         </cfif>
         <cfif arguments.full_name!="" && arguments.email_id!="" && arguments.user_name!="" && arguments.pwd!="" && arguments.c_pwd!="" && arguments.pwd==arguments.c_pwd>
             <cfif email_res.RecordCount EQ 0 AND user_res.RecordCount EQ 0>
@@ -38,10 +38,12 @@
                 </cfquery>
                 <cfif result.RecordCount EQ 1>
                     <cfset local.status=hash('1','sha')>
+                    <cflocation  url="../index.cfm?status=#local.status#" addtoken="no">
                 </cfif>
-            </cfif>          
-        </cfif>
-        <cflocation  url="../index.cfm?status=#local.status#" addtoken="no">        
+            <cfelse>
+                <cflocation  url="../register.cfm?status=#local.status#" addtoken="no">
+            </cfif>               
+        </cfif>        
     </cffunction>
 
     <cffunction name="doLogin" access="remote" output="false" >
@@ -55,11 +57,7 @@
             user_name=<cfqueryparam value="#arguments.user_name#" cfsqltype="CF_SQL_VARCHAR">AND 
             password=<cfqueryparam value="#local.password#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>                
-        <cfif loginData.recordCount EQ 1>
-            <cflogin>
-                <cfloginuser  name="#loginData.user_name#"  password="#loginData.password#" roles="User">
-                </cfloginuser>
-            </cflogin>
+        <cfif loginData.recordCount EQ 1>            
             <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
           <cfset local.userLoggedIn=true>
         </cfif>
@@ -71,9 +69,9 @@
         </cfif>
     </cffunction>
 
-    <cffunction name="doLogout" access="public" output="false">
+    <cffunction name="doLogout" access="remote" output="false">
         <cfset structDelete(session, "sessionUser")>
-        <cflogout>
+        <cflocation url="../index.cfm" addtoken="no">
     </cffunction>
 
     <cffunction name="createContact" access="remote" output="false">        
@@ -109,44 +107,46 @@
             SELECT * FROM address_book.contacts
             WHERE phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>
-        <cfif contact_email_res.RecordCount EQ 0 AND contact_phone_res.RecordCount EQ 0> 
-            <cfquery name="contact_user" datasource="address_book" result="contact_res">
-                INSERT INTO address_book.contacts(
-                    title,
-                    first_name,
-                    last_name,
-                    gender,
-                    dob,
-                    address,
-                    street_name,
-                    city,
-                    state,
-                    nation,
-                    pincode,
-                    email_id,
-                    phone_number,
-                    user_photo,u
-                    user_id) 
-                VALUES(
-                        <cfqueryparam value="#arguments.title#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.f_name#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.l_name#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.gender#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.dob#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.address#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.street_name#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.city#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.state#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.nation#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.pincode#" cfsqltype="CF_SQL_INTEGER">,                   
-                        <cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_NUMERIC">,
-                        <cfqueryparam value="#local.file_name#" cfsqltype="CF_SQL_VARCHAR">,
-                        <cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">                                   
-                        )
-            </cfquery>
-            <cfif contact_res.RecordCount EQ 1>
-                <cfset local.status=hash("1","sha")>
+        <cfif arguments.f_name!="" && arguments.l_name!="" && arguments.dob!="" && arguments.address!="" && arguments.pincode!="" && arguments.email_id!="" && arguments.phone!="">
+            <cfif contact_email_res.RecordCount EQ 0 AND contact_phone_res.RecordCount EQ 0> 
+                <cfquery name="contact_user" datasource="address_book" result="contact_res">
+                    INSERT INTO address_book.contacts(
+                        title,
+                        first_name,
+                        last_name,
+                        gender,
+                        dob,
+                        address,
+                        street_name,
+                        city,
+                        state,
+                        nation,
+                        pincode,
+                        email_id,
+                        phone_number,
+                        user_photo,
+                        user_id) 
+                    VALUES(
+                            <cfqueryparam value="#arguments.title#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.f_name#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.l_name#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.gender#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.dob#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.address#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.street_name#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.city#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.state#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.nation#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.pincode#" cfsqltype="CF_SQL_INTEGER">,                   
+                            <cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_NUMERIC">,
+                            <cfqueryparam value="#local.file_name#" cfsqltype="CF_SQL_VARCHAR">,
+                            <cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">                                   
+                            )
+                </cfquery>
+                <cfif contact_res.RecordCount EQ 1>
+                    <cfset local.status=hash("1","sha")>
+                </cfif>
             </cfif>
         </cfif>        
         <cflocation  url="../dashboard.cfm?status=#local.status#" AddToken="no">
@@ -169,7 +169,7 @@
         <cflocation  url="./dashboard.cfm?status=#local.status#" addtoken="no">  
     </cffunction>
 
-    <cffunction name="editContact" access="remote" output="false">
+    <cffunction name="editContact" access="remote" >
         <cfargument  name="title" type="string">
         <cfargument  name="f_name" type="string">
         <cfargument  name="l_name" type="string">
@@ -187,11 +187,16 @@
         <cfargument  name="contact_id" type="integer">
         <cfset local.thisDir = expandPath("../uploads")>
         <cfset local.currDir=expandPath("../files")>
+        <cfquery name="fetchImg" datasource="address_book" result="img_res">
+            SELECT user_photo FROM address_book.contacts WHERE id=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_INTEGER">
+        </cfquery>
         <cfif len(trim(arguments.user_img)) >      
             <cffile action="upload" fileField="form.user_img"  destination="#thisDir#" result="fileUpload" nameconflict="overwrite">
             <cfset local.file_name=fileupload.serverfile >
-        <cfelse>
-            <cfset local.file_name="" >           
+        <cfelseif img_res.RecordCount EQ 1>
+            <cfoutput query="fetchImg">
+                <cfset local.file_name=user_photo >
+            </cfoutput>                       
         </cfif>        
         <cfquery name="edit_contacts" datasource="address_book" result="update_res">
             UPDATE address_book.contacts SET 
@@ -238,8 +243,7 @@
     <cffunction name="facebookLogin" access="remote" >        
         <cfoauth type = "Facebook" clientid = "383729900220687" secretkey = "529a4fdeaae1647ac169e88d13856042"
         result = "res"
-        redirecturi = "http://localhost:8500/cf_task2/components/results.cfc?method=facebookLogin" >
-        
+        redirecturi = "http://localhost:8500/cf_task2/components/results.cfc?method=facebookLogin" >        
         <cfquery name="loginData" result="queryOut">
             SELECT *FROM address_book.user_data WHERE 
             email_id = <cfqueryparam CFSQLType="cf_sql_varchar" value ="#res.id#">  
@@ -277,7 +281,8 @@
             result="res"  
             redirecturi="http://127.0.0.1:8500/cf_task2/components/results.cfc?method=googleLogin">
             <cfquery  datasource="address_book" result="res_query" name="loginData">
-                SELECT * FROM address_book.user_data WHERE email_id=<cfqueryparam CFSQLType="cf_sql_varchar" value="#res.other.email#">
+                SELECT * FROM address_book.user_data 
+                WHERE email_id=<cfqueryparam CFSQLType="cf_sql_varchar" value="#res.other.email#">
             </cfquery>
             <cfif res_query.RecordCount GT 0>
                 <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>

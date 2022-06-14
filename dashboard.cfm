@@ -1,16 +1,15 @@
-<cfif structKeyExists(session,"sessionUser" )>
+
     <cfparam  name="status" default="v">    
     <cfinclude  template="header.cfm">
     <div class="container-fluid">
         <div class="container">
             <div class="row pt-3 pdf_row">
-                <div class="col-md-12">
-                    
+                <div class="col-md-12">                    
                     <div class="dashboard_icons">
                         <h3 class="text-contact">WELCOME</h3>
                         <p>
-                            <cfoutput><a href="download_pdf.cfm"><i class="fa fa-file-pdf-o"></i></a></cfoutput>
-                            <cfoutput><a href="download_excel.cfm"><i class="fa fa-file-excel-o"></i></a></cfoutput>
+                            <cfoutput><a href="download_pdf.cfm"><i class="fa-solid fa-file-pdf"></i></a></cfoutput>
+                            <cfoutput><a href="download_excel.cfm"><i class="fa-solid fa-file-excel"></i></a></cfoutput>
                             <cfoutput><a href="print.cfm"><i class="fa fa-print"></i></a></cfoutput>
                         </p>
                     </div>
@@ -62,7 +61,7 @@
                                 <cfoutput>
                                 <cfif ArrayLen(sData) GT 0>
                                     <cfloop array="#sData#" index="i">                                    
-                                        <cfset name=i.first_name & " " & i.last_name>
+                                        <cfset name= i.first_name & " " & i.last_name>
                                         <cfset c_name= i.title & " " & i.first_name & " " & i.last_name>
                                         <cfset address_name= i.address & ", " & i.street_name & ", " & i.city & ", " & i.state & ", " & i.nation>
                                         <tr>
@@ -227,11 +226,11 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" name="gender" value="Male" class="form-check-input" required>
+                                        <input type="radio" name="gender" value="Male" class="form-check-input" id="m-radio" required>
                                         <label class="form-check-label">Male</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" name="gender" value="Female" class="form-check-input" required>
+                                        <input type="radio" name="gender" value="Female" class="form-check-input" id="f-radio" required>
                                         <label class="form-check-label">Female</label>
                                     </div>                                                        
                                 </div>                                                    
@@ -326,6 +325,4 @@
         </div>
     </div> 
 <cfinclude  template="footer.cfm">
-<cfelse>
-    <cflocation  url="index.cfm" addtoken="no">
-</cfif>
+

@@ -67,7 +67,14 @@ a.navbar-brand:hover{
 .dashboard_icons h3{
     float: left;
 }
-
+i.fa-solid.fa-file-pdf
+{
+    color:red;
+}
+i.fa-solid.fa-file-excel
+{
+    color:green;
+}
 .fa-file-pdf-o{
     color:red;
 }
@@ -131,4 +138,7 @@ img.img-fluid.img-pic {
 }
 .reg_user{
     display: none;
+}
+i.fa.fa-print{
+    font-size:4rem;
 }
