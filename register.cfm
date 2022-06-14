@@ -9,25 +9,19 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <h3 class="text-contact pt-5 text-center pb-3">SIGN UP</h3>
-                        <!---
-                        <cfif status EQ '2'>
+                        <h3 class="text-contact pt-5 text-center pb-3">SIGN UP</h3>                        
+                        <cfif status EQ hash('2','sha')>
                             <div class="alert alert-danger alert-dismissible">
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     Email Already Exists!!
                             </div>
-                        <cfelseif  status EQ '3'>                               
+                        <cfelseif  status EQ hash('3','sha')>                               
                             <div class="alert alert-danger alert-dismissible">
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     User Name Already Exists!!
-                            </div>
-                        <cfif status EQ '1'>
-                            <div class="alert alert-success alert-dismissible">
-                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                        Registered Successfully!!
-                            </div>
-                        </cfif> --->                                               
-                        <form method='post' name="img_form" action="components/results.cfc?method=registerAccount" class="pt-5">
+                            </div>                        
+                        </cfif>                                            
+                        <form method='post' name="img_form" action="components/results.cfc?method=registerAccount" class="pt-3">
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
                                     <input type="text" class="form-control" name="full_name" placeholder="Enter Full Name" id="f_name" required="yes">

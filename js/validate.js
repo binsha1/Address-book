@@ -91,7 +91,7 @@ $('.view_btn').on('click',function(){
                 success: function(data)
                 {
                     console.log(data);
-                    var name=data[0].first_name+ " "+ data[0].last_name;                
+                    var name=data[0].title+ ". "+data[0].first_name+ " "+ data[0].last_name;                
                     var address=data[0].address+ ", "+ data[0].street_name+ ", "+ data[0].city+ ", "+ data[0].state+ ", "+ data[0].nation+".";
                     $('#full_name').text(name);
                     $('#gender').text(data[0].gender);
@@ -126,6 +126,26 @@ $('.title').on('click',function(){
                     success: function(data)
                     {
                         console.log(data);
+                        if(data[0].gender=="Male")
+                        {
+                            $("#m-radio").prop("checked", true);
+                        }
+                        else if(data[0].gender=="Female") 
+                        {
+                            $("#f-radio").prop("checked", true);
+                        }
+                        if(data[0].title=="Miss")
+                        {
+                            $('#title').val("Miss");
+                        }
+                        else if(data[0].title=="Mrs")
+                        {
+                            $('#title').val("Mrs");
+                        } 
+                        else if(data[0].title=="Mr")
+                        {
+                            $('#title').val("Mr");
+                        } 
                         $('#contact_id').val(data[0].id);
                         $('#f_name').val(data[0].first_name);
                         $('#l_name').val(data[0].last_name);

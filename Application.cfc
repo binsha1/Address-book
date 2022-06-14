@@ -6,7 +6,8 @@
     <cfset this.clientManagement="true">
     <cfset this.setClientCookies=true>
     <cfset this.scriptProtect="all">
-    <cfset this.ormenabled="true"> 
+    <cfset this.ormenabled="true">
+    <cfset this.loginStorage = "session"> 
     <cfset this.datasource="address_book">
     <cfset this.ormSettings = { 
         logsql : true,
@@ -23,17 +24,23 @@
         <cfreturn true>
     </cffunction>
 
-    <!---OnRequestStart Method--->
-    <cffunction name="OnRequestStart" returntype="boolean" access="public">
-        <cfset this.onApplicationStart()>
-        <cfif isDefined('url.logout')>
-            <cflocation  url="index.cfm" addtoken="no">
-        </cfif>        
-        <cfreturn true>
-    </cffunction>
+    
 
     <cffunction name="onSessionStart" returnType="void" output="false" access="public">
-        <cfset session.started = now()>           
+        <cfset session.started = now()>
+                   
+    </cffunction>
+    <!---OnRequestStart Method--->
+    <cffunction name="OnRequestStart" returntype="boolean" access="public">
+                
+        <!---
+        <cfif session.allowin EQ false>
+            <cflocation  url="index.cfm"/>
+         </cfif>
+        <cfif NOT structKeyExists(session, 'sessionUser')>
+            <cflocation  url="index.cfm" addtoken="no" >            
+        </cfif> ---->  
+        <cfreturn true>
     </cffunction>
     
     <!---<cffunction name="onSessionEnd" returntype="void" access="public">
