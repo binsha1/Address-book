@@ -1,4 +1,4 @@
-<cfset data=application.obj.printFunc(session.sessionUser.user_id)>
+<cfset data=application.obj.printFunc()>
 <cfinclude  template="header.cfm">
 <body onload="printTable('print_div')">
     <cfdocument  format="pdf" filename="contact_data.pdf" overwrite="Yes" >        

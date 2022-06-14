@@ -9,18 +9,8 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <h3 class="text-contact pt-5 text-center pb-3">LOGIN FORM</h3>
-                        <cfif status EQ '2'>
-                            <div class="alert alert-danger alert-dismissible">
-                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    Email Already Exists!!
-                            </div>
-                        <cfelseif  status EQ '3'>                               
-                            <div class="alert alert-danger alert-dismissible">
-                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    User Name Already Exists!!
-                            </div>
-                        <cfelseif status EQ hash('1','sha')>
+                        <h3 class="text-contact pt-5 text-center pb-3">LOGIN FORM</h3>                        
+                        <cfif status EQ hash('1','sha')>
                             <div class="alert alert-success alert-dismissible">
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                         Registered Successfully!!

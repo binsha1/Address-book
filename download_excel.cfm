@@ -1,4 +1,4 @@
-<cfset data=application.obj.downloadPdf(session.sessionUser.user_id)>
+<cfset data=application.obj.printFunc()>
 <cfset res=queryNew("Name,Date_of_birth,Gender,Address,Pincode,Email,Phone")>
 <cfoutput query="data">
     <cfset c_name= title & ". " & first_name & " " & last_name>

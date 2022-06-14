@@ -19,34 +19,64 @@
                             <div class="alert alert-danger alert-dismissible">
                                 <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     User Name Already Exists!!
-                            </div>                        
+                            </div>
+                        <cfelseif  status EQ hash('4','sha')>                               
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Please Fill Full Name!!
+                            </div>
+                        <cfelseif  status EQ hash('5','sha')>                               
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Please Fill Email Address!!
+                            </div>
+                        <cfelseif  status EQ hash('6','sha')>                               
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Please Fill User Name!!
+                            </div>
+                        <cfelseif  status EQ hash('7','sha')>                               
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Please Fill Password!!
+                            </div>
+                        <cfelseif  status EQ hash('8','sha')>                               
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Please Fill Confirm Password!!
+                            </div>
+                        <cfelseif  status EQ hash('9','sha')>                               
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="##" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Password and Confirm Password should be same!!
+                            </div>                            
                         </cfif>                                            
                         <form method='post' name="img_form" action="components/results.cfc?method=registerAccount" class="pt-3">
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
-                                    <input type="text" class="form-control" name="full_name" placeholder="Enter Full Name" id="f_name" required="yes">
+                                    <input type="text" class="form-control" name="full_name" placeholder="Enter Full Name" id="f_name" required>
                                 </div>
                             </div>
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
-                                    <input type="email" class="form-control" name="email_id" placeholder="Enter Email Id" id="email_add" required="yes" onchange="checkEmail();">
+                                    <input type="email" class="form-control" name="email_id" placeholder="Enter Email Id" id="email_add" onchange="checkEmail();" required>
                                     <p class="reg_email text-danger pt-3"></p>
                                 </div>
                             </div>
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
-                                    <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="user_name" required="yes" onchange="checkUserName();">
+                                    <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="user_name" onchange="checkUserName();"  required>
                                     <p class="reg_user text-danger pt-3"></p>
                                 </div>
                             </div>
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
-                                    <input type="password" class="form-control" name="pwd" placeholder="Enter Password" id="pwd" required="yes" onchange="validatePasswordField();">
+                                    <input type="password" class="form-control" name="pwd" placeholder="Enter Password" id="pwd" onchange="validatePasswordField();" required>
                                 </div>
                             </div>
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
-                                    <input type="password" class="form-control" name="c_pwd" placeholder="Confirm Password" id="cpwd"  required="yes" onchange="validatePassword();">
+                                    <input type="password" class="form-control" name="c_pwd" placeholder="Confirm Password" id="cpwd" onchange="validatePassword();"  required>
                                 </div>
                             </div>          
                             <div class='form-group row pt-3'>        

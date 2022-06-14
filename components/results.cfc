@@ -6,7 +6,7 @@
         <cfargument  name="pwd" type="string">
         <cfargument  name="c_pwd" type="string">
         <cfset local.status="">
-         <cfset local.password = hash(arguments.pwd)>            
+        <cfset local.password = hash(arguments.pwd)>            
         <cfquery name="address_email" datasource="address_book" result="email_res">
             SELECT * FROM address_book.user_data 
             WHERE email_id=<cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -21,6 +21,19 @@
         <cfif user_res.RecordCount NEQ 0>
             <cfset local.status=hash('3','sha')>            
         </cfif>
+        <cfif arguments.full_name =="">
+            <cfset local.status=hash('4','sha')>            
+        <cfelseif arguments.email_id =="">
+            <cfset local.status=hash('5','sha')>
+        <cfelseif arguments.user_name =="">
+            <cfset local.status=hash('6','sha')>
+        <cfelseif arguments.pwd =="">
+            <cfset local.status=hash('7','sha')>
+        <cfelseif arguments.c_pwd =="">
+            <cfset local.status=hash('8','sha')>
+        <cfelseif arguments.pwd !=arguments.c_pwd>
+            <cfset local.status=hash('9','sha')>
+        </cfif>                  
         <cfif arguments.full_name!="" && arguments.email_id!="" && arguments.user_name!="" && arguments.pwd!="" && arguments.c_pwd!="" && arguments.pwd==arguments.c_pwd>
             <cfif email_res.RecordCount EQ 0 AND user_res.RecordCount EQ 0>
                 <cfquery name="address_book" datasource="address_book" result="result">
@@ -42,8 +55,11 @@
                 </cfif>
             <cfelse>
                 <cflocation  url="../register.cfm?status=#local.status#" addtoken="no">
-            </cfif>               
-        </cfif>        
+            </cfif>
+        <cfelse>
+            <cflocation  url="../register.cfm?status=#local.status#" addtoken="no">
+        </cfif>
+               
     </cffunction>
 
     <cffunction name="doLogin" access="remote" output="false" >
@@ -59,7 +75,7 @@
         </cfquery>                
         <cfif loginData.recordCount EQ 1>            
             <cfset session.sessionUser={'user_id'=loginData.id,'user_name'=loginData.user_name,'full_name'=loginData.full_name}>
-          <cfset local.userLoggedIn=true>
+            <cfset local.userLoggedIn=true>
         </cfif>
         <cfif local.userLoggedIn EQ true>
             <cflocation  url="../dashboard.cfm" addtoken="no">
@@ -222,25 +238,16 @@
         <cflocation  url="../dashboard.cfm?status=#local.status#" AddToken="no">
     </cffunction>
 
-    <cffunction name="printFunc" output="true" access="public">
-        <cfargument  name="user_id" type="integer">
+    <cffunction name="printFunc" output="true" access="public">        
         <cfquery name="print_res" result="p_res">
             SELECT * FROM address_book.contacts WHERE 
-            user_id=<cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">
+            user_id=<cfqueryparam value="#session.sessionUser.user_id#" cfsqltype="CF_SQL_INTEGER">
         </cfquery>
         <cfreturn print_res>
     </cffunction>
+    
 
-    <cffunction name="downloadPdf" output="true" access="public">
-        <cfargument name="user_id" type="integer">
-        <cfquery name="EmpList" datasource="address_book" result="emp_list"> 
-            SELECT * FROM address_book.contacts 
-            WHERE user_id=<cfqueryparam value="#arguments.user_id#" cfsqltype="CF_SQL_INTEGER">
-        </cfquery>
-        <cfreturn EmpList>
-    </cffunction>
-
-    <cffunction name="facebookLogin" access="remote" >        
+    <cffunction name="facebookLogin" access="remote" output="true">        
         <cfoauth type = "Facebook" clientid = "383729900220687" secretkey = "529a4fdeaae1647ac169e88d13856042"
         result = "res"
         redirecturi = "http://localhost:8500/cf_task2/components/results.cfc?method=facebookLogin" >        

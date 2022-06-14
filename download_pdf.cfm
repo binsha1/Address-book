@@ -1,4 +1,4 @@
-<cfset data=application.obj.downloadPdf(session.sessionUser.user_id)>
+<cfset data=application.obj.printFunc()>
 <cfdocument  format="pdf" filename="contact_data.pdf" overwrite="Yes"> 
     <cfinclude  template="master.cfm">
         <h3 class="text-center">Contact List</h3>

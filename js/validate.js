@@ -19,8 +19,7 @@ function validatePassword()
     if ((pass.length<8) || (!pass.match(symbolPattern)) || (!pass.match(numberPattern)) ||(!pass.match(lowercasePattern)) ||(!pass.match(uppercasePattern)))
     {
         passwordInput.setCustomValidity('Please match the requested format: Minimum 8 characters, Contain atleast 1 lowercase ,uppercase character, Atleast 1 Number,1 special character');
-    }
-    
+    }    
 }*/
 function validatePasswordField()
 {
@@ -35,7 +34,6 @@ function validatePasswordField()
         passwordInput.setCustomValidity('Please match the requested format: Minimum 8 characters, Contain atleast 1 lowercase ,uppercase character, Atleast 1 Number,1 special character');
         return false;
     }
-
 }
 
 function validateCreate(){
