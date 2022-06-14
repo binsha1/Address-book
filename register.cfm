@@ -29,13 +29,13 @@
                             </div>
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
-                                    <input type="email" class="form-control" name="email_id" placeholder="Enter Email Id" id="email_add" required="yes" onchange="checkEmail();">
+                                    <input type="email" class="form-control" name="email_id" placeholder="Enter Email Id" id="email_add" required="yes" >
                                     <p class="reg_email text-danger pt-3"></p>
                                 </div>
                             </div>
                             <div class="form-group row">                                    
                                 <div class='col-sm-12'>
-                                    <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="user_name" required="yes" onchange="checkUserName();">
+                                    <input type="text" class="form-control" name="user_name" placeholder="Enter User Name" id="user_name" required="yes" >
                                     <p class="reg_user text-danger pt-3"></p>
                                 </div>
                             </div>
