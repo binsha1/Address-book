@@ -30,6 +30,7 @@
                           
     </cffunction>
     <!---OnRequestStart Method--->
+<<<<<<< HEAD
     <cffunction name="OnRequestStart" returntype="boolean" access="public">
         <cfargument  name="requestname" type="string">
         <cfif NOT structKeyExists(session, 'sessionUser') >   
@@ -46,6 +47,16 @@
                 </cfoutput>
             </cfif>
         </cfif>        
+
+    <cffunction name="OnRequestStart" returntype="boolean" access="public">       
+        <cfargument name="targetPage" type="string" required="true" />
+        <cfif !session.loggedin>
+           <cflocation  url="index.cfm" addtoken="no">            
+        <cfelse>
+            <cfset this.onApplicationStart()>             
+        </cfif>
+        
+
         <cfreturn true>
     </cffunction>
     
@@ -54,6 +65,7 @@
         <cfdump var="#sessionScope#">
         <cfdump var="#arguments.sessionScope.dateInitialized# : #now()#"/> ---->
     </cffunction>
+
 
     <cffunction  name="onError" access="public" returntype="void" output="true">
         <cfargument name="Exception" type="any" required="true"/>
@@ -68,6 +80,13 @@
         <cfoutput>
             <center><h3>This Page is Not Available</h3></center>
         </cfoutput>
+
+    
+    <cffunction  name="onError" access="public" returntype="void" output="true">
+        <cfargument name="Exception" type="any" required="true"/>
+        <cfargument name="EventName" type="string" required="false" default=""/>
+        <cfdump  var="#Exception#">
+
     </cffunction>
 
 </cfcomponent>
