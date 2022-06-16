@@ -26,6 +26,7 @@
 
     <cffunction name="onSessionStart" returnType="void" output="false" access="public">
         <cfset session.started = now()>        
+                          
     </cffunction>
     <!---OnRequestStart Method--->
 
@@ -45,10 +46,8 @@
                 </cfoutput>
             </cfif>
         </cfif> 
-    </cffunction>       
+    </cffunction>      
 
-    
-    
     <cffunction name="onSessionEnd" returntype="void" access="public">
         <cfoutput>
             <center>
