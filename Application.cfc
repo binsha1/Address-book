@@ -26,6 +26,7 @@
 
     <cffunction name="onSessionStart" returnType="void" output="false" access="public">
         <cfset session.started = now()>        
+                          
     </cffunction>
     <!---OnRequestStart Method--->
 
