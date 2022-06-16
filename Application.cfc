@@ -1,7 +1,7 @@
 <cfcomponent output="false">
     <cfset this.name="cf_tasks">
     <cfset this.sessionManagement = "true" >
-    <cfset this.sessionTimeout = createTimespan(0,0,0,30)>
+    <cfset this.sessionTimeout = createTimespan(0,0,30,0)>
     <cfset This.applicationtimeout=createTimespan(2,0,0,0)> 
     <cfset this.clientManagement="true">
     <cfset this.setClientCookies=true>
@@ -25,13 +25,11 @@
     </cffunction>
 
     <cffunction name="onSessionStart" returnType="void" output="false" access="public">
-        <cfset session.started = now()>
-        <cfset session.loggedin=false>
-                          
+        <cfset session.started = now()>        
     </cffunction>
     <!---OnRequestStart Method--->
-<<<<<<< HEAD
-    <cffunction name="OnRequestStart" returntype="boolean" access="public">
+
+    <cffunction name="OnRequestStart"  access="public">
         <cfargument  name="requestname" type="string">
         <cfif NOT structKeyExists(session, 'sessionUser') >   
             <cfif findNoCase("/cf_task2/dashboard.cfm",requestname) GT 0 || 
@@ -46,21 +44,18 @@
                     <cfabort>
                 </cfoutput>
             </cfif>
-        </cfif>        
+        </cfif> 
+    </cffunction>       
 
-    <cffunction name="OnRequestStart" returntype="boolean" access="public">       
-        <cfargument name="targetPage" type="string" required="true" />
-        <cfif !session.loggedin>
-           <cflocation  url="index.cfm" addtoken="no">            
-        <cfelse>
-            <cfset this.onApplicationStart()>             
-        </cfif>
-        
-
-        <cfreturn true>
-    </cffunction>
+    
     
     <cffunction name="onSessionEnd" returntype="void" access="public">
+        <cfoutput>
+            <center>
+                <h3>Your Session expired. Please login again</h3>
+                <a href="index.cfm">Click Here</a>
+            </center>
+        </cfoutput>
         <!---<cfargument name="sessionScope" type="any" required="true" hint="Session Scope"/>
         <cfdump var="#sessionScope#">
         <cfdump var="#arguments.sessionScope.dateInitialized# : #now()#"/> ---->
@@ -80,13 +75,6 @@
         <cfoutput>
             <center><h3>This Page is Not Available</h3></center>
         </cfoutput>
-
-    
-    <cffunction  name="onError" access="public" returntype="void" output="true">
-        <cfargument name="Exception" type="any" required="true"/>
-        <cfargument name="EventName" type="string" required="false" default=""/>
-        <cfdump  var="#Exception#">
-
-    </cffunction>
+    </cffunction>   
 
 </cfcomponent>

@@ -35,7 +35,7 @@
             <cfset local.status=hash('9','sha')>
         </cfif>                  
         <cfif arguments.full_name!="" && arguments.email_id!="" && arguments.user_name!="" && arguments.pwd!="" && arguments.c_pwd!="" && arguments.pwd==arguments.c_pwd>
-            <cfif email_res.RecordCount EQ 0 AND user_res.RecordCount EQ 0>
+            <cfif email_res.RecordCount EQ 0  AND user_res.RecordCount EQ 0>
                 <cfquery name="address_book" datasource="address_book" result="result">
                     INSERT INTO address_book.user_data(
                         full_name,
@@ -58,8 +58,7 @@
             </cfif>
         <cfelse>
             <cflocation  url="../register.cfm?status=#local.status#" addtoken="no">
-        </cfif>
-               
+        </cfif>               
     </cffunction>
 
     <cffunction name="doLogin" access="remote" output="false" >
@@ -94,8 +93,8 @@
         <cfargument  name="title" type="string">
         <cfargument  name="f_name" type="string">
         <cfargument  name="l_name" type="string">
-        <cfargument  name="gender" type="string">
-        <cfargument  name="dob" type="date">
+        <cfargument  name="gender" type="string" default="">
+        <cfargument  name="dob" type="string" >
         <cfargument  name="address" type="string">
         <cfargument  name="street_name" type="string">
         <cfargument  name="city" type="string">
@@ -123,7 +122,15 @@
             SELECT * FROM address_book.contacts
             WHERE phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>
-        <cfif arguments.f_name!="" && arguments.l_name!="" && arguments.dob!="" && arguments.address!="" && arguments.pincode!="" && arguments.email_id!="" && arguments.phone!="">
+        <cfif contact_email_res.RecordCount NEQ 0>
+            <cfset local.status=hash('4','sha')>
+        <cfelseif contact_phone_res.RecordCount NEQ 0>
+            <cfset local.status=hash('5','sha')>
+        </cfif>
+        <!---<cfif arguments.f_name=="" || arguments.l_name==""|| arguments.dob=="" || arguments.gender==""||arguments.address==""|| arguments.street_name=="" ||arguments.city=="" ||arguments.state=="" ||arguments.nation==""|| arguments.pincode=="" || arguments.email_id=="" || arguments.phone=="">
+            <cfset local.status=hash('6','sha')>
+        </cfif>--->
+        <cfif arguments.f_name!="" && arguments.l_name!="" && arguments.dob!="" && arguments.gender!="" && arguments.address!="" && arguments.pincode!="" && arguments.email_id!="" && arguments.phone!="" && arguments.street_name!="" && arguments.state!="" && arguments.city!="" && arguments.nation!="">
             <cfif contact_email_res.RecordCount EQ 0 AND contact_phone_res.RecordCount EQ 0> 
                 <cfquery name="contact_user" datasource="address_book" result="contact_res">
                     INSERT INTO address_book.contacts(
@@ -164,7 +171,9 @@
                     <cfset local.status=hash("1","sha")>
                 </cfif>
             </cfif>
-        </cfif>        
+        <cfelse>
+            <cfset local.status=hash('6','sha')>
+        </cfif>
         <cflocation  url="../dashboard.cfm?status=#local.status#" AddToken="no">
     </cffunction>
 
@@ -213,28 +222,50 @@
             <cfoutput query="fetchImg">
                 <cfset local.file_name=user_photo >
             </cfoutput>                       
-        </cfif>        
-        <cfquery name="edit_contacts" datasource="address_book" result="update_res">
-            UPDATE address_book.contacts SET 
-            title=<cfqueryparam value="#arguments.title#" cfsqltype="CF_SQL_VARCHAR"> ,
-            first_name=<cfqueryparam value="#arguments.f_name#" cfsqltype="CF_SQL_VARCHAR">,
-            last_name=<cfqueryparam value="#arguments.l_name#" cfsqltype="CF_SQL_VARCHAR">,
-            gender=<cfqueryparam value="#arguments.gender#" cfsqltype="CF_SQL_VARCHAR">, 
-            dob=<cfqueryparam value="#arguments.dob#" cfsqltype="CF_SQL_VARCHAR">,
-            address=<cfqueryparam value="#arguments.address#" cfsqltype="CF_SQL_VARCHAR">, 
-            street_name=<cfqueryparam value="#arguments.street_name#" cfsqltype="CF_SQL_VARCHAR">,
-            city=<cfqueryparam value="#arguments.city#" cfsqltype="CF_SQL_VARCHAR">,
-            state=<cfqueryparam value="#arguments.state#" cfsqltype="CF_SQL_VARCHAR">,
-            nation=<cfqueryparam value="#arguments.nation#" cfsqltype="CF_SQL_VARCHAR">,
-            pincode=<cfqueryparam value="#arguments.pincode#" cfsqltype="CF_SQL_INTEGER">,
-            email_id=<cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">,
-            phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR">,
-            user_photo=<cfqueryparam value="#local.file_name#" cfsqltype="CF_SQL_VARCHAR">
-            WHERE id=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_INTEGER"> 
+        </cfif>
+        <cfquery name="contacts"  datasource="address_book" result="email_res">
+            SELECT * FROM address_book.contacts
+            WHERE email_id=<cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR"> AND 
+            id!=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_VARCHAR">
         </cfquery>
-        <cfif update_res.RecordCount EQ 1>
-                <cfset local.status=hash('2','sha')>
-        </cfif>           
+        <cfquery name="contacts"  datasource="address_book" result="phone_res">
+            SELECT * FROM address_book.contacts
+            WHERE phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR"> AND 
+            id!=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_VARCHAR">
+        </cfquery>
+        <cfif email_res.RecordCount NEQ 0>
+            <cfset local.status=hash('4','sha')>
+        </cfif>
+        <cfif phone_res.RecordCount NEQ 0>
+            <cfset local.status=hash('5','sha')>
+        </cfif>
+        <cfif arguments.f_name!="" && arguments.l_name!="" && arguments.dob!="" && arguments.gender!="" && arguments.address!="" && arguments.pincode!="" && arguments.email_id!="" && arguments.phone!="" && arguments.street_name!="" && arguments.state!="" && arguments.city!="" && arguments.nation!="">        
+            <cfif email_res.RecordCount EQ 0 AND phone_res.RecordCount EQ 0>
+                <cfquery name="edit_contacts" datasource="address_book" result="update_res">
+                    UPDATE address_book.contacts SET 
+                    title=<cfqueryparam value="#arguments.title#" cfsqltype="CF_SQL_VARCHAR"> ,
+                    first_name=<cfqueryparam value="#arguments.f_name#" cfsqltype="CF_SQL_VARCHAR">,
+                    last_name=<cfqueryparam value="#arguments.l_name#" cfsqltype="CF_SQL_VARCHAR">,
+                    gender=<cfqueryparam value="#arguments.gender#" cfsqltype="CF_SQL_VARCHAR">, 
+                    dob=<cfqueryparam value="#arguments.dob#" cfsqltype="CF_SQL_VARCHAR">,
+                    address=<cfqueryparam value="#arguments.address#" cfsqltype="CF_SQL_VARCHAR">, 
+                    street_name=<cfqueryparam value="#arguments.street_name#" cfsqltype="CF_SQL_VARCHAR">,
+                    city=<cfqueryparam value="#arguments.city#" cfsqltype="CF_SQL_VARCHAR">,
+                    state=<cfqueryparam value="#arguments.state#" cfsqltype="CF_SQL_VARCHAR">,
+                    nation=<cfqueryparam value="#arguments.nation#" cfsqltype="CF_SQL_VARCHAR">,
+                    pincode=<cfqueryparam value="#arguments.pincode#" cfsqltype="CF_SQL_INTEGER">,
+                    email_id=<cfqueryparam value="#arguments.email_id#" cfsqltype="CF_SQL_VARCHAR">,
+                    phone_number=<cfqueryparam value="#arguments.phone#" cfsqltype="CF_SQL_VARCHAR">,
+                    user_photo=<cfqueryparam value="#local.file_name#" cfsqltype="CF_SQL_VARCHAR">
+                    WHERE id=<cfqueryparam value="#arguments.contact_id#" cfsqltype="CF_SQL_INTEGER"> 
+                </cfquery> 
+                <cfif update_res.RecordCount EQ 1>
+                        <cfset local.status=hash('2','sha')>
+                </cfif> 
+            </cfif>      
+        <cfelse>
+            <cfset local.status=hash('6','sha')>
+        </cfif>
         <cflocation  url="../dashboard.cfm?status=#local.status#" AddToken="no">
     </cffunction>
 
