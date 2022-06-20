@@ -1,4 +1,3 @@
-
 <cfparam  name="status" default="v">    
 <cfinclude  template="header.cfm">
 <div class="container-fluid">
@@ -257,7 +256,7 @@
                                 <input type="date" name="dob" class="form-control" placeholder="Enter Date Of Birth" id="dob" required>
                             </div>
                             <div class="col-lg-2">
-                                <label class="form-label control-label pt-3" >Upload Photo:</label>
+                                <label class="form-label control-label pt-3">Upload Photo:</label>
                             </div>
                             <div class="col-lg-4">
                                 <div>                                                           
