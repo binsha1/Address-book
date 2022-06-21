@@ -25,8 +25,7 @@
     </cffunction>
 
     <cffunction name="onSessionStart" returnType="void" output="false" access="public">
-        <cfset session.started = now()>        
-                          
+        <cfset session.started = now()>       
     </cffunction>
     <!---OnRequestStart Method--->
 
@@ -74,6 +73,6 @@
         <cfoutput>
             <center><h3>This Page is Not Available</h3></center>
         </cfoutput>
-    </cffunction>   
+    </cffunction>  
 
 </cfcomponent>
