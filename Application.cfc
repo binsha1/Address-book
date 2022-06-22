@@ -30,14 +30,17 @@
     <!---OnRequestStart Method--->
 
     <cffunction name="OnRequestStart"  access="public">
-        <cfargument  name="requestname" type="string">
+        <!---<cfargument  name="requestname" type="string">--->
         <cfif NOT structKeyExists(session, 'sessionUser') >   
-            <cfif findNoCase("/cf_task2/dashboard.cfm",requestname) GT 0 || 
-                findNoCase("/cf_task2/delete.cfm",requestname) GT 0 ||
-                findNoCase("/cf_task2/download_pdf.cfm",requestname) GT 0||
-                findNoCase("/cf_task2/download_excel.cfm",requestname) GT 0  || 
-                findNoCase("/cf_task2/print.cfm",requestname) GT 0 >
-                <cfoutput>                    
+            <cfif findNoCase("/cf_task2/dashboard.cfm",cgi.SCRIPT_NAME) GT 0 || 
+                findNoCase("/cf_task2/delete.cfm",cgi.SCRIPT_NAME) GT 0 ||
+                findNoCase("/cf_task2/download_pdf.cfm",cgi.SCRIPT_NAME) GT 0||
+                findNoCase("/cf_task2/download_excel.cfm",cgi.SCRIPT_NAME) GT 0  || 
+                findNoCase("/cf_task2/header.cfm",cgi.SCRIPT_NAME) GT 0 ||
+                findNoCase("/cf_task2/footer.cfm",cgi.SCRIPT_NAME) GT 0 ||
+                findNoCase("/cf_task2/print.cfm",cgi.SCRIPT_NAME) GT 0 >
+                <cfoutput>
+                                        
                     <center><h1>Login Required</h1>
                     <p>Please Login to your account</p><br>
                     <a href="index.cfm">Click Here</a></center>

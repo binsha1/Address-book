@@ -90,7 +90,7 @@
                                         <td> #i.email_id# </td>
                                         <td> #i.phone_number# </td>  
                                         <td><button class="btn btn-primary edit title" data-bs-toggle="modal" data-bs-target=".myModal" data-id="#i.id#" id="edit">Edit</button></td>
-                                        <td><a href="delete.cfm?id=#i.id#&user_id=#session.sessionUser.user_id#" class="btn btn-contact">Delete</a></td>                                            
+                                        <td><a href="delete.cfm?id=#i.id#" class="btn btn-contact">Delete</a></td>                                            
                                         <td><button class="btn btn-primary view_btn" data-bs-toggle="modal" data-bs-target=".viewModal-#i.id#" data-id="#i.id#" id="view_btn">View</button></td>
                                     </tr>
                                     <!---View Modal--->
